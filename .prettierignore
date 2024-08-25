@@ -1,0 +1,6 @@
+node_modules
+dist
+.gitignore
+pnpm-lock.yaml
+tsconfig.json
+tsconfig.*.json
