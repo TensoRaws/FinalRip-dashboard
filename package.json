@@ -2,33 +2,43 @@
   "name": "FinalRip-dashboard",
   "productName": "FinalRip-dashboard",
   "version": "0.0.1",
-  "description": "a simple dashboard for FinalRip",
+  "description": "A simple dashboard for FinalRip",
   "author": "Tohrusky",
   "homepage": "https://github.com/TensoRaws/FinalRip-dashboard",
   "private": true,
+  "type": "module",
   "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "lint": "prettier --write . && eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts,.vue --fix",
-    "typecheck": "nuxi typecheck",
-    "postinstall": "nuxt prepare"
-  },
-  "devDependencies": {
-    "@nuxtjs/device": "^3.1.1",
-    "@nuxtjs/eslint-config-typescript": "^12.1.0",
-    "@nuxtjs/tailwindcss": "^6.12.1",
-    "@vueuse/core": "^11.0.3",
-    "@vueuse/nuxt": "^11.0.3",
-    "eslint": "^8.57.0",
-    "prettier": "^3.3.3",
-    "vue-tsc": "^2.0.29",
-    "nuxt": "^3.13.0",
-    "tailwindcss": "^3.4.10"
+    "dev": "vite",
+    "preview": "vite preview",
+    "build": "vite build",
+    "lint": "prettier --write . && eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.app.json --composite false"
   },
   "dependencies": {
-    "@pinia/nuxt": "^0.5.4",
-    "axios": "^1.7.5"
+    "naive-ui": "^2.38.1",
+    "vue": "^3.4.21"
+  },
+  "devDependencies": {
+    "@rushstack/eslint-patch": "^1.10.1",
+    "@tsconfig/node20": "^20.1.4",
+    "@types/node": "^20.12.2",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "@vitejs/plugin-vue-jsx": "^3.1.0",
+    "@vue/eslint-config-prettier": "^9.0.0",
+    "@vue/eslint-config-typescript": "^13.0.0",
+    "@vue/tsconfig": "^0.5.1",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8.57.0",
+    "eslint-plugin-vue": "^9.24.0",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.38",
+    "prettier": "^3.2.5",
+    "tailwindcss": "^3.4.3",
+    "typescript": "~5.4.3",
+    "unplugin-auto-import": "^0.17.5",
+    "unplugin-vue-components": "^0.26.0",
+    "vite": "^5.2.7",
+    "vue-eslint-parser": "^9.4.2",
+    "vue-tsc": "^2.0.7"
   }
 }
