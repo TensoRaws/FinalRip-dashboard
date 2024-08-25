@@ -1,10 +1,10 @@
 <script setup lang="ts">
-  import { zhCN, dateZhCN, useOsTheme, darkTheme, lightTheme } from 'naive-ui'
+import { zhCN, dateZhCN, useOsTheme, darkTheme, lightTheme } from 'naive-ui'
 
-  const osThemeRef = useOsTheme()
-  const theme = computed(() => {
-    return osThemeRef.value === 'dark' ? darkTheme : lightTheme
-  })
+const osThemeRef = useOsTheme()
+const theme = computed(() => {
+  return osThemeRef.value === 'dark' ? darkTheme : lightTheme
+})
 </script>
 
 <template>

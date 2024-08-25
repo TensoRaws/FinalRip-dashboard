@@ -23,7 +23,6 @@
           <br />
           使用unplugin-auto-import + unplugin-vue-components技术加持，自动导入不费力。
           <br />
-          <NText delete> PS：只是方便自己不用每次都搭建一次而已。 </NText>
         </NP>
       </div>
     </NLayoutContent>
