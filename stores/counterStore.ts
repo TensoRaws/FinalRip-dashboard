@@ -17,8 +17,3 @@ export const useCounterStore = defineStore('counter', {
     }
   }
 })
-
-// console.log(import.meta.hot)
-if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useCounterStore, import.meta.hot))
-}
