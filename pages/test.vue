@@ -11,6 +11,7 @@ const device = useDevice()
 const { $api } = useNuxtApp()
 const handleClick = async () => {
   console.log(useDevice().isWindows)
+  // @ts-ignore
   const data = await $api.mountain.getMountains()
   console.log(data)
 }
