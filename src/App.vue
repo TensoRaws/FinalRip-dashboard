@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { zhCN, dateZhCN, useOsTheme, darkTheme, lightTheme } from 'naive-ui'
+import { useOsTheme, darkTheme, lightTheme } from 'naive-ui'
 
 const osThemeRef = useOsTheme()
 const theme = computed(() => {
@@ -8,12 +8,18 @@ const theme = computed(() => {
 </script>
 
 <template>
-  <NConfigProvider :locale="zhCN" :date-locale="dateZhCN" :theme="theme">
+  <NConfigProvider :theme="theme">
     <NLoadingBarProvider>
       <NDialogProvider>
         <NMessageProvider>
           <NNotificationProvider>
-            <HelloWorld />
+            <RouterView v-slot="{ Component }">
+              <Transition mode="out-in">
+                <KeepAlive>
+                  <component :is="Component" />
+                </KeepAlive>
+              </Transition>
+            </RouterView>
           </NNotificationProvider>
         </NMessageProvider>
       </NDialogProvider>

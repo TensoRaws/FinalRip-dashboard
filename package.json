@@ -16,7 +16,8 @@
   },
   "dependencies": {
     "naive-ui": "^2.39.0",
-    "vue": "^3.4.38"
+    "vue": "^3.4.38",
+    "vue-router": "^4.4.3"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.10.4",
