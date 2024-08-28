@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useOsTheme, darkTheme, lightTheme } from 'naive-ui'
 import { ref } from 'vue'
-import Menu from '@/components/Menu.vue'
 const osThemeRef = useOsTheme()
 const theme = computed(() => {
   return osThemeRef.value === 'dark' ? darkTheme : lightTheme
