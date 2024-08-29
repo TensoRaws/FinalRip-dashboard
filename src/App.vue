@@ -6,7 +6,7 @@ const theme = computed(() => {
   return osThemeRef.value === 'dark' ? darkTheme : lightTheme
 })
 
-const collapsed = ref<boolean>(true)
+const collapsed = ref<boolean>(false)
 </script>
 
 <template>
@@ -15,38 +15,40 @@ const collapsed = ref<boolean>(true)
       <NDialogProvider>
         <NMessageProvider>
           <NNotificationProvider>
-            <NSpace vertical>
-              <NLayout has-sider>
-                <NLayoutSider
-                  bordered
-                  collapse-mode="width"
-                  :collapsed-width="64"
-                  :width="240"
-                  :collapsed="collapsed"
-                  show-trigger
-                  @collapse="collapsed = true"
-                  @expand="collapsed = false"
-                >
-                  <Menu v-model:collapsed="collapsed" />
-                </NLayoutSider>
-                <NLayout>
-                  <NLayoutContent>
-                    <RouterView v-slot="{ Component }">
-                      <Transition mode="out-in">
-                        <KeepAlive>
-                          <component :is="Component" />
-                        </KeepAlive>
-                      </Transition>
-                    </RouterView>
-                  </NLayoutContent>
-                </NLayout>
+            <NLayout has-sider position="absolute" :native-scrollbar="false">
+              <NLayoutSider
+                bordered
+                collapse-mode="width"
+                :collapsed-width="64"
+                :width="200"
+                :collapsed="collapsed"
+                show-trigger
+                @collapse="collapsed = true"
+                @expand="collapsed = false"
+              >
+                <Menu v-model:collapsed="collapsed" />
+              </NLayoutSider>
+              <NLayout>
+                <NLayoutHeader bordered>
+                  <Header />
+                </NLayoutHeader>
+                <NLayoutContent>
+                  <RouterView v-slot="{ Component }">
+                    <Transition mode="out-in">
+                      <KeepAlive>
+                        <component :is="Component" />
+                      </KeepAlive>
+                    </Transition>
+                  </RouterView>
+                </NLayoutContent>
+                <NLayoutFooter position="absolute">
+                  <Footer />
+                </NLayoutFooter>
               </NLayout>
-            </NSpace>
+            </NLayout>
           </NNotificationProvider>
         </NMessageProvider>
       </NDialogProvider>
     </NLoadingBarProvider>
   </NConfigProvider>
 </template>
-
-<style scoped></style>

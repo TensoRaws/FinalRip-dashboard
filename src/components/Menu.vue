@@ -1,11 +1,18 @@
 <template>
-  <NMenu
-    v-model:value="activeKey"
-    :collapsed="props.collapsed"
-    :collapsed-width="64"
-    :collapsed-icon-size="22"
-    :options="menuOptions"
-  />
+  <div>
+    <div v-if="!props.collapsed">
+      <div class="p-8">
+        <NGradientText size="20"> FinalRip </NGradientText>
+      </div>
+    </div>
+    <NMenu
+      v-model:value="activeKey"
+      :collapsed="props.collapsed"
+      :collapsed-width="64"
+      :collapsed-icon-size="22"
+      :options="menuOptions"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -19,7 +26,7 @@ import { BookOutline as BookIcon } from '@vicons/ionicons5'
 const props = defineProps({
   collapsed: {
     type: Boolean,
-    default: true,
+    default: false,
   },
 })
 const activeKey = ref<string | null>(null)
