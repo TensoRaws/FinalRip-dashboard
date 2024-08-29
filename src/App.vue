@@ -17,19 +17,19 @@ const collapsed = ref<boolean>(false)
           <NNotificationProvider>
             <NLayout has-sider position="absolute" :native-scrollbar="false">
               <NLayoutSider
-                bordered
                 collapse-mode="width"
                 :collapsed-width="64"
                 :width="200"
                 :collapsed="collapsed"
                 show-trigger
+                :native-scrollbar="false"
                 @collapse="collapsed = true"
                 @expand="collapsed = false"
               >
                 <Menu v-model:collapsed="collapsed" />
               </NLayoutSider>
-              <NLayout>
-                <NLayoutHeader bordered>
+              <NLayout :native-scrollbar="false">
+                <NLayoutHeader>
                   <Header />
                 </NLayoutHeader>
                 <NLayoutContent>
@@ -41,9 +41,6 @@ const collapsed = ref<boolean>(false)
                     </Transition>
                   </RouterView>
                 </NLayoutContent>
-                <NLayoutFooter position="absolute">
-                  <Footer />
-                </NLayoutFooter>
               </NLayout>
             </NLayout>
           </NNotificationProvider>

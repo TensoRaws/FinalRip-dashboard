@@ -5,7 +5,6 @@
     <NCard hoverable>
       <div class="size-80">sbsb</div>
       <div class="size-80">sbsb</div>
-      <div class="size-80">sbsb</div>
     </NCard>
   </NLayout>
 </template>

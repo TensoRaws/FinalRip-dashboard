@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="!props.collapsed">
-      <div class="p-8">
+      <div class="p-6">
         <NGradientText size="20"> FinalRip </NGradientText>
       </div>
     </div>
