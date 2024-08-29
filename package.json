@@ -19,6 +19,8 @@
     "codemirror": "^5",
     "codemirror-editor-vue3": "^2.7.0",
     "naive-ui": "^2.39.0",
+    "pinia": "^2.2.2",
+    "pinia-plugin-persistedstate": "^3.2.3",
     "vue": "^3.4.38",
     "vue-router": "^4.4.3"
   },

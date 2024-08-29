@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { useOsTheme, darkTheme, lightTheme } from 'naive-ui'
-import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useSettingsStore } from '@/store/settings'
+
 const osThemeRef = useOsTheme()
 const theme = computed(() => {
   return osThemeRef.value === 'dark' ? darkTheme : lightTheme
 })
 
-const collapsed = ref<boolean>(false)
+const { collapsed } = storeToRefs(useSettingsStore())
 </script>
 
 <template>
