@@ -1,8 +1,11 @@
 <template>
   <div class="h-screen">
-    <div v-if="!props.collapsed">
-      <div class="p-5 h-[8vh]">
+    <div class="p-5 h-[8vh]">
+      <div v-if="!props.collapsed" class="ml-10">
         <NGradientText size="20"> FinalRip </NGradientText>
+      </div>
+      <div v-else>
+        <NGradientText size="20"> FR </NGradientText>
       </div>
     </div>
     <NMenu
