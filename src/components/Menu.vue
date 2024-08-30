@@ -1,7 +1,7 @@
 <template>
-  <div class="h-[100vh]">
+  <div class="h-screen">
     <div v-if="!props.collapsed">
-      <div class="p-6">
+      <div class="p-5 h-[8vh]">
         <NGradientText size="20"> FinalRip </NGradientText>
       </div>
     </div>
