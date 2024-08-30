@@ -1,8 +1,8 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-export const useSettingsStore = defineStore(
-  'GlobalSettings',
+export const useSettingStore = defineStore(
+  'GlobalSetting',
   () => {
     const collapsed = ref<boolean>(false)
 

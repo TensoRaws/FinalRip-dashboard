@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { useOsTheme, darkTheme, lightTheme } from 'naive-ui'
 import { storeToRefs } from 'pinia'
-import { useSettingsStore } from '@/store/settings'
-
+import { useSettingStore } from '@/store/setting'
+import { themeOverrides } from '@/theme'
 const osThemeRef = useOsTheme()
 const theme = computed(() => {
   return osThemeRef.value === 'dark' ? darkTheme : lightTheme
 })
 
-const { collapsed } = storeToRefs(useSettingsStore())
+const { collapsed } = storeToRefs(useSettingStore())
 </script>
 
 <template>
-  <NConfigProvider :theme="theme">
+  <NConfigProvider :theme="theme" :theme-overrides="themeOverrides">
     <NLoadingBarProvider>
       <NDialogProvider>
         <NMessageProvider>
@@ -25,17 +25,18 @@ const { collapsed } = storeToRefs(useSettingsStore())
                 :collapsed="collapsed"
                 show-trigger
                 :native-scrollbar="false"
+                bordered
                 @collapse="collapsed = true"
                 @expand="collapsed = false"
               >
                 <Menu v-model:collapsed="collapsed" />
               </NLayoutSider>
               <NLayout :native-scrollbar="false">
-                <NLayoutHeader class="p-5 h-[8vh]">
+                <NLayoutHeader bordered class="p-4 h-[6vh]">
                   <Header />
                 </NLayoutHeader>
                 <NLayoutContent>
-                  <NLayout :native-scrollbar="false" class="p-5 h-[92vh]">
+                  <NLayout :native-scrollbar="false" class="p-5 h-[94vh]">
                     <RouterView v-slot="{ Component }">
                       <KeepAlive>
                         <component :is="Component" />
