@@ -11,12 +11,13 @@ class openWebsite {
 </script>
 
 <template>
-  <NFlex justify="end">
-    <NGradientText size="18"> a distributed video processing tool </NGradientText>
-    <NButton text size="large" @click="openWebsite.github()">
-      <NIcon size="28">
-        <LogoGithub />
-      </NIcon>
-    </NButton>
-  </NFlex>
+  <div>
+    <NFlex justify="end">
+      <NButton text size="large" @click="openWebsite.github()">
+        <NIcon size="26">
+          <LogoGithub />
+        </NIcon>
+      </NButton>
+    </NFlex>
+  </div>
 </template>

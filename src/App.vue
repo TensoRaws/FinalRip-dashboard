@@ -32,11 +32,11 @@ const { collapsed } = storeToRefs(useSettingStore())
                 <Menu v-model:collapsed="collapsed" />
               </NLayoutSider>
               <NLayout :native-scrollbar="false">
-                <NLayoutHeader bordered class="p-4 h-[6vh]">
+                <NLayoutHeader bordered class="p-[2vh] h-[6vh]">
                   <Header />
                 </NLayoutHeader>
                 <NLayoutContent>
-                  <NLayout :native-scrollbar="false" class="p-5 h-[94vh]">
+                  <NLayout :native-scrollbar="false" class="p-[3vh] h-[94vh]">
                     <RouterView v-slot="{ Component }">
                       <KeepAlive>
                         <component :is="Component" />

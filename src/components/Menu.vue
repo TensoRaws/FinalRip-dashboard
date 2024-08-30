@@ -95,7 +95,7 @@ const menuOptions: MenuOption[] = [
 
 <template>
   <div class="h-screen">
-    <div class="p-4 h-[6vh]">
+    <div class="p-[2vh] h-[6vh]">
       <div v-if="!props.collapsed" class="ml-10">
         <NGradientText size="18"> FinalRip </NGradientText>
       </div>
