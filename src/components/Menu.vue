@@ -23,8 +23,9 @@ import type { Component } from 'vue'
 import { h, ref } from 'vue'
 import { NIcon } from 'naive-ui'
 import type { MenuOption } from 'naive-ui'
-
-import { BookOutline as BookIcon } from '@vicons/ionicons5'
+import { CloudUploadOutline, PlayCircleOutline, ListCircleOutline } from '@vicons/ionicons5'
+import { DashboardOutlined } from '@vicons/antd'
+import { RouterLink } from 'vue-router'
 
 const props = defineProps({
   collapsed: {
@@ -40,26 +41,60 @@ function renderIcon(icon: Component) {
 
 const menuOptions: MenuOption[] = [
   {
-    label: '且听风吟',
-    key: 'hear-the-wind-sing',
-    icon: renderIcon(BookIcon),
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: {
+            path: '/',
+          },
+        },
+        { default: () => 'Dashboard' },
+      ),
+    key: 'Dashboard',
+    icon: renderIcon(DashboardOutlined),
   },
   {
-    label: '1973年的弹珠玩具',
-    key: 'pinball-1973',
-    icon: renderIcon(BookIcon),
-    children: [
-      {
-        label: '鼠',
-        key: 'rat',
-      },
-    ],
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: {
+            path: '/upload',
+          },
+        },
+        { default: () => 'Upload' },
+      ),
+    key: 'Upload',
+    icon: renderIcon(CloudUploadOutline),
   },
   {
-    label: '寻羊冒险记',
-    key: 'a-wild-sheep-chase',
-    disabled: true,
-    icon: renderIcon(BookIcon),
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: {
+            path: '/start',
+          },
+        },
+        { default: () => 'Start' },
+      ),
+    key: 'Start',
+    icon: renderIcon(PlayCircleOutline),
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: {
+            path: '/list',
+          },
+        },
+        { default: () => 'List' },
+      ),
+    key: 'List',
+    icon: renderIcon(ListCircleOutline),
   },
 ]
 </script>

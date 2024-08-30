@@ -15,6 +15,7 @@
     "typecheck": "vue-tsc --noEmit -p tsconfig.app.json --composite false"
   },
   "dependencies": {
+    "@vicons/antd": "^0.12.0",
     "@vicons/ionicons5": "^0.12.0",
     "codemirror": "^5",
     "codemirror-editor-vue3": "^2.7.0",

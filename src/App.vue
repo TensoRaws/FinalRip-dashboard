@@ -37,11 +37,9 @@ const { collapsed } = storeToRefs(useSettingsStore())
                 <NLayoutContent>
                   <NLayout :native-scrollbar="false" class="p-5 h-[92vh]">
                     <RouterView v-slot="{ Component }">
-                      <Transition mode="out-in">
-                        <KeepAlive>
-                          <component :is="Component" />
-                        </KeepAlive>
-                      </Transition>
+                      <KeepAlive>
+                        <component :is="Component" />
+                      </KeepAlive>
                     </RouterView>
                   </NLayout>
                 </NLayoutContent>
