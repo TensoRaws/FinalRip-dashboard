@@ -1,9 +1,17 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { storeToRefs } from 'pinia'
+
+import { useSettingStore } from '@/store/setting'
+const { apiURL, apiToken } = storeToRefs(useSettingStore())
+</script>
 
 <template>
-  <div>
-    <h1>Setting</h1>
-  </div>
+  <NCard title="API">
+    <NSpace vertical>
+      <NInput v-model:value="apiURL" placeholder="API URL: http://localhost:8848" />
+      <NInput v-model:value="apiToken" placeholder="API Token: xxxxxx" />
+    </NSpace>
+  </NCard>
 </template>
 
 <style scoped></style>

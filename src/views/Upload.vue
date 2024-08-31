@@ -69,6 +69,7 @@ function uploadVideo(options: UploadCustomRequestOptions): void {
         uploadURL = String(res.data?.url)
       } else {
         console.error(res.error?.message || 'Unknown error: Get presigned URL failed')
+        options.onError()
         notification['error']({
           content: 'Get presigned URL failed',
           meta: res.error?.message || 'Unknown error',
@@ -101,7 +102,7 @@ function uploadVideo(options: UploadCustomRequestOptions): void {
       console.error(error)
       options.onError()
       notification['error']({
-        content: 'Upload OSS failed',
+        content: 'Upload failed',
         meta: String(error) || 'Unknown error',
         duration: 2500,
         keepAliveOnHover: true,
@@ -111,37 +112,38 @@ function uploadVideo(options: UploadCustomRequestOptions): void {
 </script>
 
 <template>
-  <NCard hoverable>
-    <NSpace>
-      <NInput
-        v-model:value="manualUploadKey"
-        type="text"
-        placeholder="OSS video key"
-        autosize
-        style="min-width: 100vh"
-      />
-      <NButton type="warning" @click="newTask(manualUploadKey)">Manual Upload</NButton>
-    </NSpace>
-  </NCard>
-  <br />
-  <NCard hoverable>
-    <NUpload
-      multiple
-      directory-dnd
-      :custom-request="uploadVideo"
-      :accept="videoExtensions.join(', ')"
-    >
-      <NUploadDragger>
-        <div style="margin-bottom: 12px">
-          <NIcon size="48" :depth="3">
-            <FilmOutline />
-          </NIcon>
-        </div>
-        <NText style="font-size: 16px"> Click or drag files to this area to upload </NText>
-        <NP depth="3" style="margin: 8px 0 0 0"> Please upload the valid video file </NP>
-      </NUploadDragger>
-    </NUpload>
-  </NCard>
+  <NSpace vertical>
+    <NCard hoverable>
+      <NSpace>
+        <NInput
+          v-model:value="manualUploadKey"
+          type="text"
+          placeholder="OSS video key"
+          autosize
+          style="min-width: 100vh"
+        />
+        <NButton type="warning" @click="newTask(manualUploadKey)">Manual Upload</NButton>
+      </NSpace>
+    </NCard>
+    <NCard hoverable>
+      <NUpload
+        multiple
+        directory-dnd
+        :custom-request="uploadVideo"
+        :accept="videoExtensions.join(', ')"
+      >
+        <NUploadDragger>
+          <div style="margin-bottom: 12px">
+            <NIcon size="48" :depth="3">
+              <FilmOutline />
+            </NIcon>
+          </div>
+          <NText style="font-size: 16px"> Click or drag files to this area to upload </NText>
+          <NP depth="3" style="margin: 8px 0 0 0"> Please upload the valid video file </NP>
+        </NUploadDragger>
+      </NUpload>
+    </NCard>
+  </NSpace>
 </template>
 
 <style scoped></style>
