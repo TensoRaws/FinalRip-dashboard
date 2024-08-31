@@ -1,8 +1,14 @@
-import axios from 'axios'
 import type { AxiosInstance } from 'axios'
+import axios from 'axios'
 import { storeToRefs } from 'pinia'
+
+import type {
+  NewTaskRequest,
+  NewTaskResponse,
+  OSSPresignedURLRequest,
+  OSSPresignedURLResponse,
+} from '@/api/type'
 import { useSettingStore } from '@/store/setting'
-import type { NewTaskRequest, NewTaskResponse } from '@/api/type'
 
 function api(isJson: boolean = false): AxiosInstance {
   const { apiURL, apiToken } = storeToRefs(useSettingStore())
@@ -25,6 +31,19 @@ export async function NewTask(data: NewTaskRequest): Promise<NewTaskResponse> {
     return response.data
   } catch (error) {
     console.error('Error creating task:', error)
+    throw error
+  }
+}
+
+// GET /api/v1/task/oss/presigned
+export async function GetOSSPresignedURL(
+  data: OSSPresignedURLRequest,
+): Promise<OSSPresignedURLResponse> {
+  try {
+    const response = await api().get('/api/v1/task/oss/presigned', { params: data })
+    return response.data
+  } catch (error) {
+    console.error('Error getting presigned URL:', error)
     throw error
   }
 }

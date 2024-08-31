@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { useOsTheme, darkTheme, lightTheme } from 'naive-ui'
-import { themeOverrides } from '@/theme'
+import { darkTheme, lightTheme, useOsTheme } from 'naive-ui'
+
 import Layout from '@/layout/Layout.vue'
+import { themeOverrides } from '@/theme'
 
 const osThemeRef = useOsTheme()
 const theme = computed(() => {

@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { DashboardOutlined, SettingOutlined } from '@vicons/antd'
+import { CloudUploadOutline, ListCircleOutline, PlayCircleOutline } from '@vicons/ionicons5'
+import type { MenuOption } from 'naive-ui'
+import { NIcon } from 'naive-ui'
 import type { Component } from 'vue'
 import { h, ref } from 'vue'
-import { NIcon } from 'naive-ui'
-import type { MenuOption } from 'naive-ui'
-import { CloudUploadOutline, PlayCircleOutline, ListCircleOutline } from '@vicons/ionicons5'
-import { DashboardOutlined, SettingOutlined } from '@vicons/antd'
 import { RouterLink } from 'vue-router'
 
 const props = defineProps({

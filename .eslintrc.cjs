@@ -14,6 +14,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
   },
+  plugins: ['simple-import-sort'],
   rules: {
     // 允许被禁止的类型 https://typescript-eslint.io/rules/ban-types/
     '@typescript-eslint/ban-types': 'off',
@@ -54,5 +55,7 @@ module.exports = {
         varsIgnorePattern: '^_',
       },
     ],
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
   },
 }
