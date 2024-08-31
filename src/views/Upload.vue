@@ -11,7 +11,7 @@ const notification = useNotification()
 const manualUploadKey = ref('')
 
 // init video by key
-async function newTask(key: string) {
+async function newTask(key: string): Promise<void> {
   let notifyType: NotificationType = 'error'
   let content: string = 'Upload failed'
   let meta: string
@@ -45,44 +45,46 @@ async function newTask(key: string) {
 }
 
 // upload video
-async function uploadVideo(options: UploadCustomRequestOptions): Promise<void> {
+function uploadVideo(options: UploadCustomRequestOptions): void {
   console.log(options)
 
-  let uploadURL: string
-  const key = options.file.name
-  try {
-    const res = await GetOSSPresignedURL({
-      video_key: key,
-    })
-    console.log(res)
+  GetOSSPresignedURL({
+    video_key: options.file.name,
+  })
+    .then((res) => {
+      console.log(res)
 
-    if (res.success) {
-      uploadURL = String(res.data?.url)
-    } else {
-      console.error(res.error?.message || 'Unknown error')
-      return
-    }
-  } catch (error) {
-    console.error(error)
-    return
-  }
+      let uploadURL: string
+      if (res.success) {
+        uploadURL = String(res.data?.url)
+      } else {
+        console.error(res.error?.message || 'Unknown error')
+        options.onError()
+        return
+      }
 
-  axios
-    .put(uploadURL, options.file, {
-      headers: {
-        'Content-Type': options.file.type,
-      },
-      onUploadProgress: (progressEvent) => {
-        options.onProgress({
-          percent: Math.round((progressEvent.loaded / Number(progressEvent.total)) * 100),
+      axios
+        .put(uploadURL, options.file.file, {
+          headers: {
+            'Content-Type': options.file.type,
+          },
+          onUploadProgress: (progressEvent) => {
+            options.onProgress({
+              percent: Math.round((progressEvent.loaded / Number(progressEvent.total)) * 100),
+            })
+          },
         })
-      },
-    })
-    .then(() => {
-      console.log('Upload success')
+        .then(() => {
+          console.log('Upload success')
+          options.onFinish()
+        })
+        .catch((error) => {
+          throw error
+        })
     })
     .catch((error) => {
       console.error(error)
+      options.onError()
     })
 }
 </script>
@@ -110,10 +112,8 @@ async function uploadVideo(options: UploadCustomRequestOptions): Promise<void> {
               <ArchiveOutline />
             </NIcon>
           </div>
-          <NText style="font-size: 16px"> 点击或者拖动文件到该区域来上传 </NText>
-          <NP depth="3" style="margin: 8px 0 0 0">
-            请不要上传敏感数据，比如你的银行卡号和密码，信用卡号有效期和安全码
-          </NP>
+          <NText style="font-size: 16px"> Click or drag files to this area to upload </NText>
+          <NP depth="3" style="margin: 8px 0 0 0"> Please upload the valid video file </NP>
         </NUploadDragger>
       </NUpload>
     </NCard>

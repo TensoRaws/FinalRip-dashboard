@@ -24,6 +24,8 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 'off',
     // 允许空函数 https://typescript-eslint.io/rules/no-empty-function/
     '@typescript-eslint/no-empty-function': 'off',
+    // 禁止函数无返回值类型 https://typescript-eslint.io/rules/explicit-function-return-type/
+    '@typescript-eslint/explicit-function-return-type': 'error',
     // 禁止未使用变量，除了下划线开头 https://typescript-eslint.io/rules/no-unused-vars/
     '@typescript-eslint/no-unused-vars': [
       'error',

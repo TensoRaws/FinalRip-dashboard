@@ -3,7 +3,7 @@ import { DashboardOutlined, SettingOutlined } from '@vicons/antd'
 import { CloudUploadOutline, ListCircleOutline, PlayCircleOutline } from '@vicons/ionicons5'
 import type { MenuOption } from 'naive-ui'
 import { NIcon } from 'naive-ui'
-import type { Component } from 'vue'
+import type { Component, VNodeChild } from 'vue'
 import { h, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
@@ -15,7 +15,7 @@ const props = defineProps({
 })
 const activeKey = ref<string | null>(null)
 
-function renderIcon(icon: Component) {
+function renderIcon(icon: Component): () => VNodeChild {
   return () => h(NIcon, null, { default: () => h(icon) })
 }
 
