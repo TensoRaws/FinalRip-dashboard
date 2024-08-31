@@ -17,6 +17,7 @@
   "dependencies": {
     "@vicons/antd": "^0.12.0",
     "@vicons/ionicons5": "^0.12.0",
+    "axios": "^1.7.6",
     "codemirror": "^5",
     "codemirror-editor-vue3": "^2.7.0",
     "naive-ui": "^2.39.0",
