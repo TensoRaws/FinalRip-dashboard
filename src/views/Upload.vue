@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ArchiveOutline } from '@vicons/ionicons5'
+import { FilmOutline } from '@vicons/ionicons5'
 import axios from 'axios'
 import type { NotificationType } from 'naive-ui'
 import { type UploadCustomRequestOptions, useNotification } from 'naive-ui'
 
 import { GetOSSPresignedURL, NewTask } from '@/api'
+import { videoExtensions } from '@/util'
 
 const notification = useNotification()
 
@@ -46,7 +47,18 @@ async function newTask(key: string): Promise<void> {
 
 // upload video
 function uploadVideo(options: UploadCustomRequestOptions): void {
-  console.log(options)
+  // check file extension
+  const ext = options.file.name.split('.').pop() || ''
+  if (!videoExtensions.includes('.' + ext.toLowerCase())) {
+    options.onError()
+    notification['error']({
+      content: 'Invalid video file',
+      meta: 'Please upload the valid video file',
+      duration: 2500,
+      keepAliveOnHover: true,
+    })
+    return
+  }
 
   GetOSSPresignedURL({
     video_key: options.file.name,
@@ -78,8 +90,8 @@ function uploadVideo(options: UploadCustomRequestOptions): void {
           },
         })
         .then(() => {
-          console.log(options.file.name)
           newTask(options.file.name)
+          options.onFinish()
         })
         .catch((error) => {
           throw error
@@ -87,6 +99,7 @@ function uploadVideo(options: UploadCustomRequestOptions): void {
     })
     .catch((error) => {
       console.error(error)
+      options.onError()
       notification['error']({
         content: 'Upload OSS failed',
         meta: String(error) || 'Unknown error',
@@ -112,11 +125,16 @@ function uploadVideo(options: UploadCustomRequestOptions): void {
   </NCard>
   <br />
   <NCard hoverable>
-    <NUpload multiple directory-dnd :custom-request="uploadVideo">
+    <NUpload
+      multiple
+      directory-dnd
+      :custom-request="uploadVideo"
+      :accept="videoExtensions.join(', ')"
+    >
       <NUploadDragger>
         <div style="margin-bottom: 12px">
           <NIcon size="48" :depth="3">
-            <ArchiveOutline />
+            <FilmOutline />
           </NIcon>
         </div>
         <NText style="font-size: 16px"> Click or drag files to this area to upload </NText>
