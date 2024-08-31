@@ -27,7 +27,7 @@ async function newTask(key: string): Promise<void> {
       if (res.success) {
         notifyType = 'success'
         content = 'Upload success'
-        meta = 'Task has been initiated'
+        meta = 'Task: ' + key
       } else {
         meta = res.error?.message || 'Unknown error'
       }
@@ -52,14 +52,17 @@ function uploadVideo(options: UploadCustomRequestOptions): void {
     video_key: options.file.name,
   })
     .then((res) => {
-      console.log(res)
-
       let uploadURL: string
       if (res.success) {
         uploadURL = String(res.data?.url)
       } else {
-        console.error(res.error?.message || 'Unknown error')
-        options.onError()
+        console.error(res.error?.message || 'Unknown error: Get presigned URL failed')
+        notification['error']({
+          content: 'Get presigned URL failed',
+          meta: res.error?.message || 'Unknown error',
+          duration: 2500,
+          keepAliveOnHover: true,
+        })
         return
       }
 
@@ -75,8 +78,8 @@ function uploadVideo(options: UploadCustomRequestOptions): void {
           },
         })
         .then(() => {
-          console.log('Upload success')
-          options.onFinish()
+          console.log(options.file.name)
+          newTask(options.file.name)
         })
         .catch((error) => {
           throw error
@@ -84,7 +87,12 @@ function uploadVideo(options: UploadCustomRequestOptions): void {
     })
     .catch((error) => {
       console.error(error)
-      options.onError()
+      notification['error']({
+        content: 'Upload OSS failed',
+        meta: String(error) || 'Unknown error',
+        duration: 2500,
+        keepAliveOnHover: true,
+      })
     })
 }
 </script>
@@ -103,21 +111,19 @@ function uploadVideo(options: UploadCustomRequestOptions): void {
     </NSpace>
   </NCard>
   <br />
-  <NSpace justify="space-between">
-    <NCard hoverable>
-      <NUpload multiple directory-dnd :custom-request="uploadVideo">
-        <NUploadDragger>
-          <div style="margin-bottom: 12px">
-            <NIcon size="48" :depth="3">
-              <ArchiveOutline />
-            </NIcon>
-          </div>
-          <NText style="font-size: 16px"> Click or drag files to this area to upload </NText>
-          <NP depth="3" style="margin: 8px 0 0 0"> Please upload the valid video file </NP>
-        </NUploadDragger>
-      </NUpload>
-    </NCard>
-  </NSpace>
+  <NCard hoverable>
+    <NUpload multiple directory-dnd :custom-request="uploadVideo">
+      <NUploadDragger>
+        <div style="margin-bottom: 12px">
+          <NIcon size="48" :depth="3">
+            <ArchiveOutline />
+          </NIcon>
+        </div>
+        <NText style="font-size: 16px"> Click or drag files to this area to upload </NText>
+        <NP depth="3" style="margin: 8px 0 0 0"> Please upload the valid video file </NP>
+      </NUploadDragger>
+    </NUpload>
+  </NCard>
 </template>
 
 <style scoped></style>
