@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { LogoGithub } from '@vicons/ionicons5'
-import { ContrastSharp, MoonOutline, SunnyOutline } from '@vicons/ionicons5'
+import { ContrastSharp, MoonOutline, SettingsOutline, SunnyOutline } from '@vicons/ionicons5'
 import { storeToRefs } from 'pinia'
 
+import router from '@/router'
 import { useSettingStore } from '@/store/setting'
 
 const { darkMode } = storeToRefs(useSettingStore())
@@ -29,6 +30,12 @@ function handleDarkMode(): void {
 <template>
   <div>
     <NFlex justify="end">
+      <NButton text size="large" @click="openWebsite.github()">
+        <NIcon size="26">
+          <LogoGithub />
+        </NIcon>
+      </NButton>
+
       <NButton text size="large" @click="handleDarkMode">
         <NIcon size="26">
           <div v-if="darkMode === 'light'">
@@ -42,9 +49,10 @@ function handleDarkMode(): void {
           </div>
         </NIcon>
       </NButton>
-      <NButton text size="large" @click="openWebsite.github()">
+
+      <NButton text size="large" @click="router.push('/setting')">
         <NIcon size="26">
-          <LogoGithub />
+          <SettingsOutline />
         </NIcon>
       </NButton>
     </NFlex>

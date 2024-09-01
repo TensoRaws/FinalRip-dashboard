@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DashboardOutlined, SettingOutlined } from '@vicons/antd'
+import { DashboardOutlined } from '@vicons/antd'
 import { CloudUploadOutline, Code, ListCircleOutline, PlayCircleOutline } from '@vicons/ionicons5'
 import type { MenuOption } from 'naive-ui'
 import { NIcon } from 'naive-ui'
@@ -89,20 +89,6 @@ const menuOptions: MenuOption[] = [
       ),
     key: 'List',
     icon: renderIcon(ListCircleOutline),
-  },
-  {
-    label: () =>
-      h(
-        RouterLink,
-        {
-          to: {
-            path: '/setting',
-          },
-        },
-        { default: () => 'Setting' },
-      ),
-    key: 'Setting',
-    icon: renderIcon(SettingOutlined),
   },
 ]
 </script>
