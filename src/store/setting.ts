@@ -1,9 +1,14 @@
 import { defineStore } from 'pinia'
+import type { Ref } from 'vue'
 import { ref } from 'vue'
+export type DarkModeType = 'system' | 'light' | 'dark'
 
 export const useSettingStore = defineStore(
   'GlobalSetting',
   () => {
+    // dark mode
+    const darkMode: Ref<DarkModeType> = ref('system')
+    const systemDarkMode = ref(false)
     // menu collapsed
     const collapsed = ref(false)
     // api
@@ -22,6 +27,8 @@ export const useSettingStore = defineStore(
     const encodeParam = ref('ffmpeg -i - -vcodec libx265 -crf 16')
 
     return {
+      darkMode,
+      systemDarkMode,
       collapsed,
       apiURL,
       apiToken,
@@ -32,7 +39,15 @@ export const useSettingStore = defineStore(
   {
     persist: {
       storage: localStorage,
-      paths: ['collapsed', 'apiURL', 'apiToken', 'script', 'encodeParam'],
+      paths: [
+        'darkMode',
+        'systemDarkMode',
+        'collapsed',
+        'apiURL',
+        'apiToken',
+        'script',
+        'encodeParam',
+      ],
     },
   },
 )

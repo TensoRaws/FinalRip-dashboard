@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { VueMonacoEditor } from '@guolao/vue-monaco-editor'
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
-import { useOsTheme } from 'naive-ui'
 import { storeToRefs } from 'pinia'
 import { shallowRef } from 'vue'
 
 import { useSettingStore } from '@/store/setting'
 
-const { script, encodeParam } = storeToRefs(useSettingStore())
+const { darkMode, systemDarkMode, script, encodeParam } = storeToRefs(useSettingStore())
 
 const MONACO_EDITOR_OPTIONS: monacoEditor.editor.IStandaloneEditorConstructionOptions = {
   acceptSuggestionOnCommitCharacter: true,
@@ -17,9 +16,11 @@ const MONACO_EDITOR_OPTIONS: monacoEditor.editor.IStandaloneEditorConstructionOp
   formatOnPaste: true,
 }
 
-const osThemeRef = useOsTheme()
 const theme = computed(() => {
-  return osThemeRef.value === 'dark' ? 'vs-dark' : 'vs'
+  if (darkMode.value === 'system') {
+    return systemDarkMode.value ? 'vs-dark' : 'vs'
+  }
+  return darkMode.value === 'dark' ? 'vs-dark' : 'vs'
 })
 
 const editor = shallowRef()

@@ -1,12 +1,24 @@
 <script setup lang="ts">
 import { darkTheme, lightTheme, useOsTheme } from 'naive-ui'
+import { storeToRefs } from 'pinia'
 
 import Layout from '@/layout/Layout.vue'
+import { useSettingStore } from '@/store/setting'
 import { themeOverrides } from '@/theme'
 
+const { systemDarkMode, darkMode } = storeToRefs(useSettingStore())
+
 const osThemeRef = useOsTheme()
+watchEffect(() => {
+  console.log('osTheme change!', osThemeRef.value)
+  systemDarkMode.value = osThemeRef.value === 'dark'
+})
+
 const theme = computed(() => {
-  return osThemeRef.value === 'dark' ? darkTheme : lightTheme
+  if (darkMode.value === 'system') {
+    return systemDarkMode.value ? darkTheme : lightTheme
+  }
+  return darkMode.value === 'dark' ? darkTheme : lightTheme
 })
 </script>
 
