@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
+import Code from '@/views/Code.vue'
 import Dashboard from '@/views/Dashboard.vue'
 import List from '@/views/List.vue'
 import Setting from '@/views/Setting.vue'
@@ -16,6 +17,10 @@ export default createRouter({
     {
       path: '/upload',
       component: Upload,
+    },
+    {
+      path: '/code',
+      component: Code,
     },
     {
       path: '/start',

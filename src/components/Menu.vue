@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { DashboardOutlined, SettingOutlined } from '@vicons/antd'
-import { CloudUploadOutline, ListCircleOutline, PlayCircleOutline } from '@vicons/ionicons5'
+import { CloudUploadOutline, Code, ListCircleOutline, PlayCircleOutline } from '@vicons/ionicons5'
 import type { MenuOption } from 'naive-ui'
 import { NIcon } from 'naive-ui'
 import type { Component, VNodeChild } from 'vue'
@@ -47,6 +47,20 @@ const menuOptions: MenuOption[] = [
       ),
     key: 'Upload',
     icon: renderIcon(CloudUploadOutline),
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: {
+            path: '/code',
+          },
+        },
+        { default: () => 'Code' },
+      ),
+    key: 'Code',
+    icon: renderIcon(Code),
   },
   {
     label: () =>
