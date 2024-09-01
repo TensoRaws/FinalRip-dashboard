@@ -6,7 +6,7 @@ const { apiURL, apiToken } = storeToRefs(useSettingStore())
 </script>
 
 <template>
-  <NCard title="API">
+  <NCard title="API" size="small">
     <NSpace vertical>
       <NInput v-model:value="apiURL" placeholder="API URL: http://localhost:8848" />
       <NInput v-model:value="apiToken" placeholder="API Token: xxxxxx" />

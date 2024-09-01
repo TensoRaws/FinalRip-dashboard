@@ -7,7 +7,7 @@ import { shallowRef } from 'vue'
 
 import { useSettingStore } from '@/store/setting'
 
-const { script } = storeToRefs(useSettingStore())
+const { script, encodeParam } = storeToRefs(useSettingStore())
 
 const MONACO_EDITOR_OPTIONS: monacoEditor.editor.IStandaloneEditorConstructionOptions = {
   acceptSuggestionOnCommitCharacter: true,
@@ -29,8 +29,8 @@ function handleMount(editorInstance: any): any {
 </script>
 
 <template>
-  <NCard hoverable>
-    <div class="w-[100vh] h-[70vh]">
+  <NSpace vertical>
+    <NCard hoverable title="Script" size="small" style="width: 110vh; height: 70vh">
       <VueMonacoEditor
         v-model:value="script"
         language="python"
@@ -39,8 +39,11 @@ function handleMount(editorInstance: any): any {
         class="h-screen w-screen"
         @mount="handleMount"
       />
-    </div>
-  </NCard>
+    </NCard>
+    <NCard hoverable title="Encode Params" size="small" style="width: 110vh">
+      <NInput v-model:value="encodeParam" type="textarea" placeholder="Encode Params" />
+    </NCard>
+  </NSpace>
 </template>
 
 <style scoped></style>

@@ -16,7 +16,8 @@ export const useSettingStore = defineStore(
         'from vapoursynth import core\n' +
         '\n' +
         "clip = core.bs.VideoSource(source=os.getenv('FINALRIP_SOURCE'))\n" +
-        'clip.set_output()',
+        'clip.set_output()' +
+        '\n',
     )
     const encodeParam = ref('ffmpeg -i - -vcodec libx265 -crf 16')
 
