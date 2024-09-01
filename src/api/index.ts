@@ -7,6 +7,7 @@ import type {
   NewTaskResponse,
   OSSPresignedURLRequest,
   OSSPresignedURLResponse,
+  PingResponse,
 } from '@/api/type'
 import { useSettingStore } from '@/store/setting'
 
@@ -22,6 +23,17 @@ function api(isJson: boolean = false): AxiosInstance {
       token: apiToken.value,
     },
   })
+}
+
+// GET /
+export async function Ping(): Promise<PingResponse> {
+  try {
+    const response = await api().get('/')
+    return response.data
+  } catch (error) {
+    console.error('Error ping:', error)
+    throw error
+  }
 }
 
 // POST /api/v1/task/new

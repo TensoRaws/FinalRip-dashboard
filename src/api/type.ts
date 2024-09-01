@@ -3,6 +3,12 @@ export interface Error {
   [property: string]: any
 }
 
+export interface PingResponse {
+  error?: Error
+  success: boolean
+  [property: string]: any
+}
+
 export interface NewTaskRequest {
   video_key: string
   [property: string]: any
