@@ -34,7 +34,8 @@ const columns: DataTableColumns<Task> = [
     title: 'Video',
     key: 'key',
     fixed: 'left',
-    filter: (value: string | number, row: Task) => row.key.includes(String(value)),
+    filter: (value: string | number, row: Task) =>
+      row.key.toLowerCase().includes(String(value).toLowerCase()),
   },
   {
     title: 'Status',
@@ -149,6 +150,30 @@ function deleteTasks(): void {
   })
 }
 
+function downloadTasks(): void {
+  if (checkedRowKeys.value.length === 0) {
+    message.warning('Please select at least one task')
+    return
+  }
+
+  let downloadList: string[] = []
+  checkedRowKeys.value.forEach((key) => {
+    const task = tasks.value.find((t) => t.key === key)
+    if (task?.encode_url) {
+      downloadList.push(task.encode_url)
+    }
+  })
+
+  if (downloadList.length === 0) {
+    message.warning('No download link found')
+    return
+  }
+
+  downloadList.forEach((url) => {
+    window.open(url, '_blank')
+  })
+}
+
 const filter = ref('')
 const tableRef: any = ref(null)
 watch(filter, () => {
@@ -181,13 +206,14 @@ watch(filter, () => {
         </NSpace>
         <NSpace>
           <NButton type="error" @click="deleteTasks"> Delete </NButton>
+          <NButton type="info" @click="downloadTasks"> Download </NButton>
         </NSpace>
       </NSpace>
       <NDataTable
         ref="tableRef"
         :columns="columns"
         :data="tasks"
-        :row-key="(record: any) => record.key"
+        :row-key="(row: Task) => row.key"
         max-height="70vh"
         virtual-scroll
         striped

@@ -197,7 +197,7 @@ function deleteTasks(): void {
       <NDataTable
         :columns="columns"
         :data="tasks"
-        :row-key="(record: any) => record.key"
+        :row-key="(row: pendingTask) => row.key"
         max-height="70vh"
         virtual-scroll
         striped
