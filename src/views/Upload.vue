@@ -71,7 +71,7 @@ function uploadVideo(options: UploadCustomRequestOptions): void {
           notification['warning']({
             content: 'Video already exists',
             meta: 'Please upload the new video file',
-            duration: 2500,
+            duration: 5000,
             keepAliveOnHover: true,
           })
           options.onError()
@@ -83,8 +83,6 @@ function uploadVideo(options: UploadCustomRequestOptions): void {
         notification['error']({
           content: 'Get presigned URL failed',
           meta: res.error?.message || 'Unknown error',
-          duration: 2500,
-          keepAliveOnHover: true,
         })
         return
       }
@@ -114,8 +112,6 @@ function uploadVideo(options: UploadCustomRequestOptions): void {
       notification['error']({
         content: 'Upload failed',
         meta: String(error) || 'Unknown error',
-        duration: 2500,
-        keepAliveOnHover: true,
       })
     })
 }

@@ -24,8 +24,6 @@ onMounted(() => {
       notification['error']({
         content: 'Server is not available',
         meta: String(error) || 'Unknown error',
-        duration: 2500,
-        keepAliveOnHover: true,
       })
     })
 })
