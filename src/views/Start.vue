@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { DownloadOutline } from '@vicons/ionicons5'
 import type { DataTableColumns, DataTableRowKey } from 'naive-ui'
-import { NButton, useNotification } from 'naive-ui'
+import { NButton, useDialog, useMessage, useNotification } from 'naive-ui'
 import { storeToRefs } from 'pinia'
 import type { VNodeChild } from 'vue'
 import { h } from 'vue'
@@ -13,6 +13,8 @@ import { renderIcon } from '@/util/util'
 const { script, encodeParam } = storeToRefs(useSettingStore())
 
 const notification = useNotification()
+const dialog = useDialog()
+const message = useMessage()
 
 interface pendingTask {
   key: string
@@ -41,10 +43,11 @@ const columns: DataTableColumns<pendingTask> = [
 ]
 
 const tasks = ref<pendingTask[]>([])
-onMounted(() => {
+onActivated(() => {
   fetchPendingTasks()
 })
 function fetchPendingTasks(): void {
+  console.log('Fetch pending tasks...')
   GetTaskList({
     pending: true,
     running: false,
@@ -52,14 +55,15 @@ function fetchPendingTasks(): void {
   })
     .then((res) => {
       if (res.success) {
-        tasks.value = []
+        const temp: pendingTask[] = []
         res.data?.forEach((task) => {
-          tasks.value.push({
+          temp.push({
             key: task.key,
             create_at: task.create_at,
             url: task.url,
           })
         })
+        tasks.value = temp
       } else {
         console.error(res)
         notification['error']({
@@ -98,71 +102,102 @@ function updateCheckedRowKeys(keys: DataTableRowKey[]): void {
 }
 
 function submitTasks(): void {
-  checkedRowKeys.value.forEach((key) => {
-    console.log(key.toString())
-    StartTask({
-      encode_param: encodeParam.value,
-      script: script.value,
-      video_key: key.toString(),
-    })
-      .then((res) => {
-        if (res.success) {
-          notification['success']({
-            content: 'Task started successfully',
-            meta: 'Task: ' + key,
-            duration: 2500,
-            keepAliveOnHover: true,
-          })
-        } else {
-          notification['error']({
-            content: 'Task start failed',
-            meta: res.error?.message || 'Unknown error',
-          })
-        }
-      })
-      .catch((err) => {
-        console.error(err)
-        notification['error']({
-          content: 'Task start failed',
-          meta: String(err) || 'Unknown error',
-        })
-      })
-  })
+  if (checkedRowKeys.value.length === 0) {
+    message.warning('Please select at least one task')
+    return
+  }
 
-  fetchPendingTasks()
+  dialog.success({
+    title: 'Start Selected Task?',
+    positiveText: 'YES',
+    negativeText: 'NO',
+    maskClosable: false,
+    onMaskClick: () => {
+      message.warning('Cannot close')
+    },
+    onPositiveClick: () => {
+      checkedRowKeys.value.forEach((key) => {
+        console.log(key.toString())
+        StartTask({
+          encode_param: encodeParam.value,
+          script: script.value,
+          video_key: key.toString(),
+        })
+          .then((res) => {
+            if (res.success) {
+              notification['success']({
+                content: 'Task started successfully',
+                meta: 'Task: ' + key,
+                duration: 2500,
+                keepAliveOnHover: true,
+              })
+            } else {
+              notification['error']({
+                content: 'Task start failed',
+                meta: res.error?.message || 'Unknown error',
+              })
+            }
+
+            fetchPendingTasks()
+          })
+          .catch((err) => {
+            console.error(err)
+            notification['error']({
+              content: 'Task start failed',
+              meta: String(err) || 'Unknown error',
+            })
+          })
+      })
+    },
+  })
 }
 
 function deleteTasks(): void {
-  checkedRowKeys.value.forEach((key) => {
-    console.log(key.toString())
-    ClearTask({
-      video_key: key.toString(),
-    })
-      .then((res) => {
-        if (res.success) {
-          notification['success']({
-            content: 'Task deleted successfully',
-            meta: 'Task: ' + key,
-            duration: 2500,
-            keepAliveOnHover: true,
-          })
-        } else {
-          notification['error']({
-            content: 'Delete task failed',
-            meta: res.error?.message || 'Unknown error',
-          })
-        }
-      })
-      .catch((err) => {
-        console.error(err)
-        notification['error']({
-          content: 'Delete task failed',
-          meta: String(err) || 'Unknown error',
-        })
-      })
-  })
+  if (checkedRowKeys.value.length === 0) {
+    message.warning('Please select at least one task')
+    return
+  }
 
-  fetchPendingTasks()
+  dialog.warning({
+    title: 'Delete Selected Task?',
+    positiveText: 'YES',
+    negativeText: 'NO',
+    maskClosable: false,
+    onMaskClick: () => {
+      message.warning('Cannot close')
+    },
+    onPositiveClick: () => {
+      checkedRowKeys.value.forEach((key) => {
+        ClearTask({
+          video_key: key.toString(),
+        })
+          .then((res) => {
+            if (res.success) {
+              notification['success']({
+                content: 'Task deleted successfully',
+                meta: 'Task: ' + key,
+                duration: 2500,
+                keepAliveOnHover: true,
+              })
+            } else {
+              notification['error']({
+                content: 'Delete task failed',
+                meta: res.error?.message || 'Unknown error',
+              })
+            }
+
+            fetchPendingTasks()
+          })
+          .catch((err) => {
+            console.error(err)
+            notification['error']({
+              content: 'Delete task failed',
+              meta: String(err) || 'Unknown error',
+            })
+          })
+      })
+    },
+  })
 }
 </script>
 
