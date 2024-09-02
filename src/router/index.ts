@@ -1,3 +1,4 @@
+import type { Component } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 import Code from '@/views/Code.vue'
@@ -33,6 +34,11 @@ export default createRouter({
     {
       path: '/setting',
       component: Setting,
+    },
+    {
+      path: '/task/:videoKey',
+      component: (): Component => import('@/views/Task.vue'),
+      props: (to): any => ({ videoKey: to.params.videoKey }),
     },
   ],
 })

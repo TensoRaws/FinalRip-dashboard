@@ -27,7 +27,7 @@ export function renderIconButton(icon: Component, url: string): VNodeChild {
   )
 }
 
-export function renderStatusButton(status: string, link: string): VNodeChild {
+export function renderStatusButton(status: string, videoKey: string): VNodeChild {
   let type: 'default' | 'error' | 'primary' | 'info' | 'success' | 'warning' | undefined
   if (status === 'pending') {
     type = 'warning'
@@ -39,13 +39,20 @@ export function renderStatusButton(status: string, link: string): VNodeChild {
     type = 'error'
   }
 
+  const handleClick = (): void => {
+    if (status === 'pending') {
+      return
+    }
+    router.push('/task/' + videoKey)
+  }
+
   return h(
     NButton,
     {
       secondary: true,
       bordered: true,
       type: type,
-      onClick: () => router.push(link),
+      onClick: handleClick,
     },
     {
       default: () => status,
