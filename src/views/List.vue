@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CloudDownloadOutline } from '@vicons/ionicons5'
+import { CloudDownloadOutline, SearchOutline } from '@vicons/ionicons5'
 import type { DataTableColumns, DataTableRowKey } from 'naive-ui'
 import { NButton, useDialog, useMessage, useNotification } from 'naive-ui'
 import { storeToRefs } from 'pinia'
@@ -34,6 +34,7 @@ const columns: DataTableColumns<Task> = [
     title: 'Video',
     key: 'key',
     fixed: 'left',
+    filter: (value: string | number, row: Task) => row.key.includes(String(value)),
   },
   {
     title: 'Status',
@@ -147,6 +148,15 @@ function deleteTasks(): void {
     },
   })
 }
+
+const filter = ref('')
+const tableRef: any = ref(null)
+watch(filter, () => {
+  console.log('Filter Update:', filter.value)
+  tableRef.value.filter({
+    key: filter.value,
+  })
+})
 </script>
 
 <template>
@@ -163,12 +173,18 @@ function deleteTasks(): void {
           <NCheckbox v-model:checked="checkedCompletedBox" @update-checked="fetchTasks">
             <NGradientText type="success"> Completed</NGradientText>
           </NCheckbox>
+          <NInput v-model:value="filter" placeholder="Search">
+            <template #prefix>
+              <NIcon :component="SearchOutline" />
+            </template>
+          </NInput>
         </NSpace>
         <NSpace>
           <NButton type="error" @click="deleteTasks"> Delete </NButton>
         </NSpace>
       </NSpace>
       <NDataTable
+        ref="tableRef"
         :columns="columns"
         :data="tasks"
         :row-key="(record: any) => record.key"
