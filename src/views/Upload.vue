@@ -5,7 +5,7 @@ import type { NotificationType } from 'naive-ui'
 import { type UploadCustomRequestOptions, useNotification } from 'naive-ui'
 
 import { GetOSSPresignedURL, NewTask } from '@/api'
-import { videoExtensions } from '@/util'
+import { videoExtensions } from '@/util/video'
 
 const notification = useNotification()
 
@@ -132,7 +132,7 @@ function uploadVideo(options: UploadCustomRequestOptions): void {
           autosize
           style="min-width: 100vh"
         />
-        <NButton type="warning" @click="newTask(manualUploadKey)">Manual Upload</NButton>
+        <NButton type="warning" @click="newTask(manualUploadKey)">Manual Init</NButton>
       </NSpace>
     </NCard>
     <NCard hoverable>

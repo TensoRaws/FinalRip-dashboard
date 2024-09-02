@@ -2,10 +2,10 @@
 import { DashboardOutlined } from '@vicons/antd'
 import { CloudUploadOutline, Code, ListCircleOutline, PlayCircleOutline } from '@vicons/ionicons5'
 import type { MenuOption } from 'naive-ui'
-import { NIcon } from 'naive-ui'
-import type { Component, VNodeChild } from 'vue'
 import { h, ref } from 'vue'
 import { RouterLink } from 'vue-router'
+
+import { renderIcon } from '@/util/util'
 
 const props = defineProps({
   collapsed: {
@@ -14,10 +14,6 @@ const props = defineProps({
   },
 })
 const activeKey = ref<string | null>(null)
-
-function renderIcon(icon: Component): () => VNodeChild {
-  return () => h(NIcon, null, { default: () => h(icon) })
-}
 
 const menuOptions: MenuOption[] = [
   {

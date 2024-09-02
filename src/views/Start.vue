@@ -1,27 +1,51 @@
 <script setup lang="ts">
-import type { DataTableColumns } from 'naive-ui'
-import { h } from 'vue'
+import { DownloadOutline } from '@vicons/ionicons5'
+import { type DataTableColumns, NButton } from 'naive-ui'
+import { h, type VNodeChild } from 'vue'
+
+import { renderIcon } from '@/util/util'
+
 interface Task {
   key: string
   url: string
+  create_at: string
+}
+
+function renderDownloadButton(row: Task): VNodeChild {
+  return h(
+    NButton,
+    {
+      text: true,
+      onClick: () => window.open(row.url, '_blank'),
+    },
+    {
+      default: renderIcon(DownloadOutline, {
+        size: 20,
+      }),
+    },
+  )
 }
 
 const tasks = ref<Task[]>([
   {
-    key: '1',
+    key: '1example.comexample.com',
     url: 'https://example.com',
+    create_at: '2021-09-01',
   },
   {
     key: '2',
     url: 'https://example.com',
+    create_at: '2021-09-01',
   },
   {
     key: '3',
     url: 'https://example.com',
+    create_at: '2021-09-01',
   },
   {
     key: '4',
     url: 'https://example.com',
+    create_at: '2021-09-01',
   },
 ])
 const selectedRows = ref<Task[]>([])
@@ -32,36 +56,21 @@ const columns: DataTableColumns<Task> = [
     fixed: 'left',
   },
   {
-    title: 'Key',
+    title: 'Video',
     key: 'key',
-    fixed: 'left',
   },
   {
-    title: 'URL',
-    key: 'url',
-    fixed: 'right',
+    title: 'Date',
+    key: 'create_at',
+  },
+  {
+    title: 'Download',
+    key: 'download',
+    render: renderDownloadButton,
   },
 ]
 
-const fetchTasks = async () => {
-  try {
-    const response = await fetch('/api/v1/task/list', {
-      headers: {
-        Authorization: 'Bearer 2f68dbbf-519d-4f01-9636-e2421b68f379',
-      },
-    })
-    const data = await response.json()
-    if (data.success) {
-      tasks.value = data.data
-    } else {
-      console.error('Failed to fetch tasks:', data.error?.message)
-    }
-  } catch (error) {
-    console.error('Error fetching tasks:', error)
-  }
-}
-
-const submitTasks = () => {
+const submitTasks = (): void => {
   if (selectedRows.value.length > 0) {
     console.log('Submitted tasks:', selectedRows.value)
     // Here you can add the logic to submit the selected tasks
@@ -69,8 +78,6 @@ const submitTasks = () => {
     console.log('No tasks selected')
   }
 }
-
-onMounted(fetchTasks)
 </script>
 
 <template>
@@ -86,10 +93,10 @@ onMounted(fetchTasks)
       <NDataTable
         :columns="columns"
         :data="tasks"
-        :row-key="(record) => record.key"
+        :row-key="(record: any) => record.key"
         max-height="70vh"
-        :scroll-x="1800"
-        virtual-scroll striped
+        virtual-scroll
+        striped
       />
     </NSpace>
   </NCard>
