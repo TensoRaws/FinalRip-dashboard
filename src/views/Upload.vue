@@ -67,6 +67,16 @@ function uploadVideo(options: UploadCustomRequestOptions): void {
       let uploadURL: string
       if (res.success) {
         uploadURL = String(res.data?.url)
+        if (res.data?.exist) {
+          notification['warning']({
+            content: 'Video already exists',
+            meta: 'Please upload the new video file',
+            duration: 2500,
+            keepAliveOnHover: true,
+          })
+          options.onError()
+          return
+        }
       } else {
         console.error(res.error?.message || 'Unknown error: Get presigned URL failed')
         options.onError()

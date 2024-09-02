@@ -27,6 +27,7 @@ export interface OSSPresignedURLRequest {
 
 export interface OSSPresignedURLResponse {
   data?: {
+    exist: boolean
     url: string
     [property: string]: any
   }
