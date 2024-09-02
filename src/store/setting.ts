@@ -25,6 +25,10 @@ export const useSettingStore = defineStore(
         '\n',
     )
     const encodeParam = ref('ffmpeg -i - -vcodec libx265 -crf 16')
+    // list setting
+    const checkedPendingBox = ref(false)
+    const checkedRunningBox = ref(true)
+    const checkedCompletedBox = ref(true)
 
     return {
       darkMode,
@@ -34,6 +38,9 @@ export const useSettingStore = defineStore(
       apiToken,
       script,
       encodeParam,
+      checkedPendingBox,
+      checkedRunningBox,
+      checkedCompletedBox,
     }
   },
   {
@@ -47,6 +54,9 @@ export const useSettingStore = defineStore(
         'apiToken',
         'script',
         'encodeParam',
+        'checkedPendingBox',
+        'checkedRunningBox',
+        'checkedCompletedBox',
       ],
     },
   },

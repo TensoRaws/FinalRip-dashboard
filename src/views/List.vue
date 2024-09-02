@@ -8,7 +8,7 @@ import { ClearTask, GetTaskList } from '@/api'
 import { useSettingStore } from '@/store/setting'
 import { renderIconButton, renderStatusButton } from '@/util/render'
 
-const { script, encodeParam } = storeToRefs(useSettingStore())
+const { checkedPendingBox, checkedRunningBox, checkedCompletedBox } = storeToRefs(useSettingStore())
 
 const notification = useNotification()
 const dialog = useDialog()
@@ -58,9 +58,9 @@ onActivated(() => {
 function fetchTasks(): void {
   console.log('Fetch pending tasks...')
   GetTaskList({
-    pending: true,
-    running: true,
-    completed: true,
+    pending: checkedPendingBox.value,
+    running: checkedRunningBox.value,
+    completed: checkedCompletedBox.value,
   })
     .then((res) => {
       if (res.success) {
@@ -153,7 +153,17 @@ function deleteTasks(): void {
   <NCard>
     <NSpace vertical>
       <NSpace justify="space-between">
-        <NGradientText size="18"> List </NGradientText>
+        <NSpace item-style="display: flex;" align="center">
+          <NCheckbox v-model:checked="checkedPendingBox" @update-checked="fetchTasks">
+            <NGradientText type="warning"> Pending</NGradientText>
+          </NCheckbox>
+          <NCheckbox v-model:checked="checkedRunningBox" @update-checked="fetchTasks">
+            <NGradientText type="info"> Running</NGradientText>
+          </NCheckbox>
+          <NCheckbox v-model:checked="checkedCompletedBox" @update-checked="fetchTasks">
+            <NGradientText type="success"> Completed</NGradientText>
+          </NCheckbox>
+        </NSpace>
         <NSpace>
           <NButton type="error" @click="deleteTasks"> Delete </NButton>
         </NSpace>

@@ -9,6 +9,10 @@ export function renderIcon(icon: Component, props?: any): () => VNodeChild {
 }
 
 export function renderIconButton(icon: Component, url: string): VNodeChild {
+  if (url === '') {
+    return null
+  }
+
   return h(
     NButton,
     {
@@ -38,7 +42,7 @@ export function renderStatusButton(status: string, link: string): VNodeChild {
   return h(
     NButton,
     {
-      round: true,
+      secondary: true,
       bordered: true,
       type: type,
       onClick: () => router.push(link),
