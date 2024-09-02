@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { FilmOutline } from '@vicons/ionicons5'
 import axios from 'axios'
-import type { NotificationType } from 'naive-ui'
-import { type UploadCustomRequestOptions, useNotification } from 'naive-ui'
+import type { NotificationType, UploadCustomRequestOptions } from 'naive-ui'
+import { useNotification } from 'naive-ui'
 
 import { GetOSSPresignedURL, NewTask } from '@/api'
 import { videoExtensions } from '@/util/video'

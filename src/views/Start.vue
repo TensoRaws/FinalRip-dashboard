@@ -2,10 +2,13 @@
 import { DownloadOutline } from '@vicons/ionicons5'
 import type { DataTableColumns, DataTableRowKey } from 'naive-ui'
 import { NButton } from 'naive-ui'
+import { useNotification } from 'naive-ui'
 import { h, type VNodeChild } from 'vue'
 
-import { GetTaskList } from '@/api'
+import { ClearTask, GetTaskList } from '@/api'
 import { renderIcon } from '@/util/util'
+
+const notification = useNotification()
 
 interface pendingTask {
   key: string
@@ -44,17 +47,29 @@ function fetchPendingTasks(): void {
     completed: false,
   })
     .then((res) => {
-      tasks.value = []
-      res.data?.forEach((task) => {
-        tasks.value.push({
-          key: task.key,
-          create_at: task.create_at,
-          url: task.url,
+      if (res.success) {
+        tasks.value = []
+        res.data?.forEach((task) => {
+          tasks.value.push({
+            key: task.key,
+            create_at: task.create_at,
+            url: task.url,
+          })
         })
-      })
+      } else {
+        console.error(res)
+        notification['error']({
+          content: 'Fetch task list failed',
+          meta: String(res) || 'Unknown error',
+        })
+      }
     })
     .catch((err) => {
       console.error(err)
+      notification['error']({
+        content: 'Fetch task list failed',
+        meta: String(err) || 'Unknown error',
+      })
     })
 }
 
@@ -83,7 +98,35 @@ function submitTasks(): void {
 }
 
 function deleteTasks(): void {
-  console.log(checkedRowKeys.value)
+  checkedRowKeys.value.forEach((key) => {
+    console.log(key.toString())
+    ClearTask({
+      video_key: key.toString(),
+    })
+      .then((res) => {
+        if (res.success) {
+          notification['success']({
+            content: 'Task deleted successfully',
+            meta: 'Task: ' + key,
+            duration: 2500,
+            keepAliveOnHover: true,
+          })
+        } else {
+          console.error(res)
+          notification['error']({
+            content: 'Delete task failed',
+            meta: String(res) || 'Unknown error',
+          })
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+        notification['error']({
+          content: 'Delete task failed',
+          meta: String(err) || 'Unknown error',
+        })
+      })
+  })
 }
 </script>
 

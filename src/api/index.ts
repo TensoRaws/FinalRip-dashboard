@@ -3,11 +3,15 @@ import axios from 'axios'
 import { storeToRefs } from 'pinia'
 
 import type {
+  ClearTaskRequest,
+  ClearTaskResponse,
   NewTaskRequest,
   NewTaskResponse,
   OSSPresignedURLRequest,
   OSSPresignedURLResponse,
   PingResponse,
+  StartTaskRequest,
+  StartTaskResponse,
   TaskListResponse,
   TaskListResquest,
 } from '@/api/type'
@@ -49,6 +53,17 @@ export async function NewTask(data: NewTaskRequest): Promise<NewTaskResponse> {
   }
 }
 
+// POST /api/v1/task/start
+export async function StartTask(data: StartTaskRequest): Promise<StartTaskResponse> {
+  try {
+    const response = await api().post('/api/v1/task/start', data)
+    return response.data
+  } catch (error) {
+    console.error('Error starting task:', error)
+    throw error
+  }
+}
+
 // GET /api/v1/task/oss/presigned
 export async function GetOSSPresignedURL(
   data: OSSPresignedURLRequest,
@@ -58,6 +73,17 @@ export async function GetOSSPresignedURL(
     return response.data
   } catch (error) {
     console.error('Error getting presigned URL:', error)
+    throw error
+  }
+}
+
+// POST /api/v1/task/clear
+export async function ClearTask(data: ClearTaskRequest): Promise<ClearTaskResponse> {
+  try {
+    const response = await api().post('/api/v1/task/clear', data)
+    return response.data
+  } catch (error) {
+    console.error('Error clearing task:', error)
     throw error
   }
 }

@@ -20,6 +20,19 @@ export interface NewTaskResponse {
   [property: string]: any
 }
 
+export interface StartTaskRequest {
+  encode_param: string
+  script: string
+  video_key: string
+  [property: string]: any
+}
+
+export interface StartTaskResponse {
+  error?: Error
+  success: boolean
+  [property: string]: any
+}
+
 export interface OSSPresignedURLRequest {
   video_key: string
   [property: string]: any
@@ -31,6 +44,17 @@ export interface OSSPresignedURLResponse {
     url: string
     [property: string]: any
   }
+  error?: Error
+  success: boolean
+  [property: string]: any
+}
+
+export interface ClearTaskRequest {
+  video_key: string
+  [property: string]: any
+}
+
+export interface ClearTaskResponse {
   error?: Error
   success: boolean
   [property: string]: any
