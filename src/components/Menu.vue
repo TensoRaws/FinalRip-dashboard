@@ -5,6 +5,7 @@ import type { MenuOption } from 'naive-ui'
 import { h, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
+import logo from '@/assets/logo.svg'
 import { renderIcon } from '@/util/render'
 
 const props = defineProps({
@@ -95,8 +96,8 @@ const menuOptions: MenuOption[] = [
       <div v-if="!props.collapsed" class="ml-14">
         <NGradientText size="18"> FinalRip </NGradientText>
       </div>
-      <div v-else class="ml-6">
-        <NGradientText size="18"> R </NGradientText>
+      <div v-else class="ml-5">
+        <NImage :src="logo" width="28" preview-disabled />
       </div>
     </div>
     <NMenu
