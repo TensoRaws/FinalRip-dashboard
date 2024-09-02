@@ -96,7 +96,7 @@ const menuOptions: MenuOption[] = [
       <div v-if="!props.collapsed" class="ml-14">
         <NGradientText size="18"> FinalRip </NGradientText>
       </div>
-      <div v-else class="ml-5">
+      <div v-else class="ml-5 mt-[-5px]">
         <NImage :src="logo" width="28" preview-disabled />
       </div>
     </div>

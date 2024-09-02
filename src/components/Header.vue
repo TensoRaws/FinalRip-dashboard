@@ -33,7 +33,7 @@ function handleDarkMode(): void {
 </script>
 
 <template>
-  <div>
+  <div class="mt-[-4px]">
     <NFlex justify="end">
       <NButton text size="large" @click="openWebsite.github()">
         <NIcon size="26">
