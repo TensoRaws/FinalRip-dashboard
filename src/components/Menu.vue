@@ -5,7 +5,7 @@ import type { MenuOption } from 'naive-ui'
 import { h, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
-import { renderIcon } from '@/util/util'
+import { renderIcon } from '@/util/render'
 
 const props = defineProps({
   collapsed: {

@@ -3,12 +3,10 @@ import { DownloadOutline } from '@vicons/ionicons5'
 import type { DataTableColumns, DataTableRowKey } from 'naive-ui'
 import { NButton, useDialog, useMessage, useNotification } from 'naive-ui'
 import { storeToRefs } from 'pinia'
-import type { VNodeChild } from 'vue'
-import { h } from 'vue'
 
 import { ClearTask, GetTaskList, StartTask } from '@/api'
 import { useSettingStore } from '@/store/setting'
-import { renderIcon } from '@/util/util'
+import { renderIconButton } from '@/util/render'
 
 const { script, encodeParam } = storeToRefs(useSettingStore())
 
@@ -38,7 +36,7 @@ const columns: DataTableColumns<pendingTask> = [
   {
     title: 'Download',
     key: 'download',
-    render: renderDownloadButton,
+    render: (row: pendingTask) => renderIconButton(DownloadOutline, row.url),
   },
 ]
 
@@ -79,21 +77,6 @@ function fetchPendingTasks(): void {
         meta: String(err) || 'Unknown error',
       })
     })
-}
-
-function renderDownloadButton(row: pendingTask): VNodeChild {
-  return h(
-    NButton,
-    {
-      text: true,
-      onClick: () => window.open(row.url, '_blank'),
-    },
-    {
-      default: renderIcon(DownloadOutline, {
-        size: 20,
-      }),
-    },
-  )
 }
 
 const checkedRowKeys = ref<DataTableRowKey[]>([])
