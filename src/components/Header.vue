@@ -1,6 +1,11 @@
 <script setup lang="ts">
-import { LogoGithub } from '@vicons/ionicons5'
-import { ContrastSharp, MoonOutline, SettingsOutline, SunnyOutline } from '@vicons/ionicons5'
+import {
+  ContrastSharp,
+  LogoGithub,
+  MoonOutline,
+  SettingsOutline,
+  SunnyOutline,
+} from '@vicons/ionicons5'
 import { storeToRefs } from 'pinia'
 
 import router from '@/router'

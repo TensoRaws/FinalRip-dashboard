@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { DownloadOutline } from '@vicons/ionicons5'
 import type { DataTableColumns, DataTableRowKey } from 'naive-ui'
-import { NButton } from 'naive-ui'
-import { useNotification } from 'naive-ui'
-import { h, type VNodeChild } from 'vue'
+import { NButton, useNotification } from 'naive-ui'
+import { storeToRefs } from 'pinia'
+import type { VNodeChild } from 'vue'
+import { h } from 'vue'
 
-import { ClearTask, GetTaskList } from '@/api'
+import { ClearTask, GetTaskList, StartTask } from '@/api'
+import { useSettingStore } from '@/store/setting'
 import { renderIcon } from '@/util/util'
+
+const { script, encodeParam } = storeToRefs(useSettingStore())
 
 const notification = useNotification()
 
@@ -94,7 +98,38 @@ function updateCheckedRowKeys(keys: DataTableRowKey[]): void {
 }
 
 function submitTasks(): void {
-  console.log(checkedRowKeys.value)
+  checkedRowKeys.value.forEach((key) => {
+    console.log(key.toString())
+    StartTask({
+      encode_param: encodeParam.value,
+      script: script.value,
+      video_key: key.toString(),
+    })
+      .then((res) => {
+        if (res.success) {
+          notification['success']({
+            content: 'Task started successfully',
+            meta: 'Task: ' + key,
+            duration: 2500,
+            keepAliveOnHover: true,
+          })
+        } else {
+          notification['error']({
+            content: 'Task start failed',
+            meta: res.error?.message || 'Unknown error',
+          })
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+        notification['error']({
+          content: 'Task start failed',
+          meta: String(err) || 'Unknown error',
+        })
+      })
+  })
+
+  fetchPendingTasks()
 }
 
 function deleteTasks(): void {
@@ -112,10 +147,9 @@ function deleteTasks(): void {
             keepAliveOnHover: true,
           })
         } else {
-          console.error(res)
           notification['error']({
             content: 'Delete task failed',
-            meta: String(res) || 'Unknown error',
+            meta: res.error?.message || 'Unknown error',
           })
         }
       })
@@ -127,6 +161,8 @@ function deleteTasks(): void {
         })
       })
   })
+
+  fetchPendingTasks()
 }
 </script>
 
