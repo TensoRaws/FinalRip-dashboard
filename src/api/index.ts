@@ -8,6 +8,8 @@ import type {
   OSSPresignedURLRequest,
   OSSPresignedURLResponse,
   PingResponse,
+  TaskListResponse,
+  TaskListResquest,
 } from '@/api/type'
 import { useSettingStore } from '@/store/setting'
 
@@ -56,6 +58,17 @@ export async function GetOSSPresignedURL(
     return response.data
   } catch (error) {
     console.error('Error getting presigned URL:', error)
+    throw error
+  }
+}
+
+// GET /api/v1/task/list
+export async function GetTaskList(data: TaskListResquest): Promise<TaskListResponse> {
+  try {
+    const response = await api().get('/api/v1/task/list', { params: data })
+    return response.data
+  } catch (error) {
+    console.error('Error getting task list:', error)
     throw error
   }
 }

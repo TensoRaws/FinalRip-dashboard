@@ -1,56 +1,19 @@
 <script setup lang="ts">
 import { DownloadOutline } from '@vicons/ionicons5'
-import { type DataTableColumns, NButton } from 'naive-ui'
+import type { DataTableColumns, DataTableRowKey } from 'naive-ui'
+import { NButton } from 'naive-ui'
 import { h, type VNodeChild } from 'vue'
 
+import { GetTaskList } from '@/api'
 import { renderIcon } from '@/util/util'
 
-interface Task {
+interface pendingTask {
   key: string
-  url: string
   create_at: string
+  url: string
 }
 
-function renderDownloadButton(row: Task): VNodeChild {
-  return h(
-    NButton,
-    {
-      text: true,
-      onClick: () => window.open(row.url, '_blank'),
-    },
-    {
-      default: renderIcon(DownloadOutline, {
-        size: 20,
-      }),
-    },
-  )
-}
-
-const tasks = ref<Task[]>([
-  {
-    key: '1example.comexample.com',
-    url: 'https://example.com',
-    create_at: '2021-09-01',
-  },
-  {
-    key: '2',
-    url: 'https://example.com',
-    create_at: '2021-09-01',
-  },
-  {
-    key: '3',
-    url: 'https://example.com',
-    create_at: '2021-09-01',
-  },
-  {
-    key: '4',
-    url: 'https://example.com',
-    create_at: '2021-09-01',
-  },
-])
-const selectedRows = ref<Task[]>([])
-
-const columns: DataTableColumns<Task> = [
+const columns: DataTableColumns<pendingTask> = [
   {
     type: 'selection',
     fixed: 'left',
@@ -70,13 +33,57 @@ const columns: DataTableColumns<Task> = [
   },
 ]
 
-const submitTasks = (): void => {
-  if (selectedRows.value.length > 0) {
-    console.log('Submitted tasks:', selectedRows.value)
-    // Here you can add the logic to submit the selected tasks
-  } else {
-    console.log('No tasks selected')
-  }
+const tasks = ref<pendingTask[]>([])
+onMounted(() => {
+  fetchPendingTasks()
+})
+function fetchPendingTasks(): void {
+  GetTaskList({
+    pending: true,
+    running: false,
+    completed: false,
+  })
+    .then((res) => {
+      tasks.value = []
+      res.data?.forEach((task) => {
+        tasks.value.push({
+          key: task.key,
+          create_at: task.create_at,
+          url: task.url,
+        })
+      })
+    })
+    .catch((err) => {
+      console.error(err)
+    })
+}
+
+function renderDownloadButton(row: pendingTask): VNodeChild {
+  return h(
+    NButton,
+    {
+      text: true,
+      onClick: () => window.open(row.url, '_blank'),
+    },
+    {
+      default: renderIcon(DownloadOutline, {
+        size: 20,
+      }),
+    },
+  )
+}
+
+const checkedRowKeys = ref<DataTableRowKey[]>([])
+function updateCheckedRowKeys(keys: DataTableRowKey[]): void {
+  checkedRowKeys.value = keys
+}
+
+function submitTasks(): void {
+  console.log(checkedRowKeys.value)
+}
+
+function deleteTasks(): void {
+  console.log(checkedRowKeys.value)
 }
 </script>
 
@@ -86,7 +93,7 @@ const submitTasks = (): void => {
       <NSpace justify="space-between">
         <NGradientText size="18" type="warning"> Pending </NGradientText>
         <NSpace>
-          <NButton type="error" @click="submitTasks"> Delete </NButton>
+          <NButton type="error" @click="deleteTasks"> Delete </NButton>
           <NButton type="primary" @click="submitTasks"> Submit </NButton>
         </NSpace>
       </NSpace>
@@ -97,6 +104,7 @@ const submitTasks = (): void => {
         max-height="70vh"
         virtual-scroll
         striped
+        @update:checked-row-keys="updateCheckedRowKeys"
       />
     </NSpace>
   </NCard>
