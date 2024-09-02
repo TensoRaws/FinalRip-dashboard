@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { DownloadOutline } from '@vicons/ionicons5'
+import { CloudDownloadOutline } from '@vicons/ionicons5'
 import type { DataTableColumns, DataTableRowKey } from 'naive-ui'
 import { NButton, useDialog, useMessage, useNotification } from 'naive-ui'
 import { storeToRefs } from 'pinia'
 
 import { ClearTask, GetTaskList } from '@/api'
 import { useSettingStore } from '@/store/setting'
-import { renderIconButton } from '@/util/render'
+import { renderIconButton, renderStatusButton } from '@/util/render'
 
 const { script, encodeParam } = storeToRefs(useSettingStore())
 
@@ -38,6 +38,7 @@ const columns: DataTableColumns<Task> = [
   {
     title: 'Status',
     key: 'status',
+    render: (row: Task) => renderStatusButton(row.status, row.key),
   },
   {
     title: 'Date',
@@ -46,7 +47,7 @@ const columns: DataTableColumns<Task> = [
   {
     title: 'Download',
     key: 'download',
-    render: (row: Task) => renderIconButton(DownloadOutline, row.encode_url),
+    render: (row: Task) => renderIconButton(CloudDownloadOutline, row.encode_url),
   },
 ]
 
