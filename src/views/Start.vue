@@ -109,7 +109,7 @@ function submitTasks(): void {
 
   dialog.success({
     title: 'Start Selected Task?',
-    positiveText: 'YES',
+    positiveText: 'RUN',
     negativeText: 'NO',
     maskClosable: false,
     onMaskClick: () => {
@@ -160,7 +160,7 @@ function deleteTasks(): void {
 
   dialog.warning({
     title: 'Delete Selected Task?',
-    positiveText: 'YES',
+    positiveText: 'DELETE',
     negativeText: 'NO',
     maskClosable: false,
     onMaskClick: () => {
