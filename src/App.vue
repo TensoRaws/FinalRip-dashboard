@@ -1,10 +1,14 @@
 <script setup lang="ts">
+import hljs from 'highlight.js/lib/core'
+import python from 'highlight.js/lib/languages/python'
 import { darkTheme, lightTheme, useOsTheme } from 'naive-ui'
 import { storeToRefs } from 'pinia'
 
 import Layout from '@/layout/Layout.vue'
 import { useSettingStore } from '@/store/setting'
 import { themeOverrides } from '@/theme'
+
+hljs.registerLanguage('python', python)
 
 const { systemDarkMode, darkMode } = storeToRefs(useSettingStore())
 
@@ -23,7 +27,7 @@ const theme = computed(() => {
 </script>
 
 <template>
-  <NConfigProvider :theme="theme" :theme-overrides="themeOverrides">
+  <NConfigProvider :theme="theme" :theme-overrides="themeOverrides" :hljs="hljs">
     <NLoadingBarProvider>
       <NDialogProvider>
         <NMessageProvider>
