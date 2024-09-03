@@ -1,0 +1,40 @@
+name: CI-Test
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+      - LICENSE
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - LICENSE
+  workflow_dispatch:
+
+jobs:
+  CI-Test:
+    strategy:
+      matrix:
+        os-version: ['ubuntu-20.04']
+
+    runs-on: ${{ matrix.os-version }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Test
+        run: |
+          pnpm install
+          pnpm run lint
+          pnpm run typecheck
