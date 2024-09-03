@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { DashboardOutlined } from '@vicons/antd'
-import { CloudUploadOutline, Code, ListCircleOutline, PlayCircleOutline } from '@vicons/ionicons5'
+import { CloudUploadOutline, Code, PlayCircleOutline } from '@vicons/ionicons5'
 import type { MenuOption } from 'naive-ui'
 import { h, ref } from 'vue'
 import { RouterLink } from 'vue-router'
@@ -72,20 +72,6 @@ const menuOptions: MenuOption[] = [
       ),
     key: 'Start',
     icon: renderIcon(PlayCircleOutline),
-  },
-  {
-    label: () =>
-      h(
-        RouterLink,
-        {
-          to: {
-            path: '/list',
-          },
-        },
-        { default: () => 'List' },
-      ),
-    key: 'List',
-    icon: renderIcon(ListCircleOutline),
   },
 ]
 </script>

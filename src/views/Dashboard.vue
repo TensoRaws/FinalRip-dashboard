@@ -3,6 +3,7 @@ import { useNotification } from 'naive-ui'
 
 import { Ping } from '@/api'
 import router from '@/router'
+import List from '@/views/List.vue'
 
 const notification = useNotification()
 
@@ -29,6 +30,8 @@ onMounted(() => {
 })
 </script>
 
-<template><div class="size-80">dashboard</div></template>
+<template>
+  <List />
+</template>
 
 <style scoped></style>
