@@ -12,6 +12,10 @@ import type {
   OSSPresignedURLRequest,
   OSSPresignedURLResponse,
   PingResponse,
+  RetryEncodeTaskRequest,
+  RetryEncodeTaskResponse,
+  RetryMergeTaskRequest,
+  RetryMergeTaskResponse,
   StartTaskRequest,
   StartTaskResponse,
   TaskListResponse,
@@ -99,6 +103,30 @@ export async function ClearTask(data: ClearTaskRequest): Promise<ClearTaskRespon
     return response.data
   } catch (error) {
     console.error('Error clearing task:', error)
+    throw error
+  }
+}
+
+// POST /api/v1/task/retry/encode
+export async function RetryEncodeTask(
+  data: RetryEncodeTaskRequest,
+): Promise<RetryEncodeTaskResponse> {
+  try {
+    const response = await api().post('/api/v1/task/retry/encode', data)
+    return response.data
+  } catch (error) {
+    console.error('Error retrying encode task:', error)
+    throw error
+  }
+}
+
+// POST /api/v1/task/retry/merge
+export async function RetryMergeTask(data: RetryMergeTaskRequest): Promise<RetryMergeTaskResponse> {
+  try {
+    const response = await api().post('/api/v1/task/retry/merge', data)
+    return response.data
+  } catch (error) {
+    console.error('Error retrying merge task:', error)
     throw error
   }
 }

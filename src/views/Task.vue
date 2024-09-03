@@ -9,7 +9,7 @@ import type { DataTableColumns } from 'naive-ui'
 import { NButton, useDialog, useMessage, useNotification } from 'naive-ui'
 import { storeToRefs } from 'pinia'
 
-import { GetTaskProgress } from '@/api'
+import { GetTaskProgress, RetryEncodeTask, RetryMergeTask } from '@/api'
 import type { TaskStatus } from '@/api/type'
 import { useSettingStore } from '@/store/setting'
 import { renderIcon, renderIconButton } from '@/util/render'
@@ -88,10 +88,6 @@ const columns: DataTableColumns<TaskProgress> = [
   },
 ]
 
-function handleRetryEncode(index: number): void {
-  message.info('Retry Clip: ' + index)
-}
-
 const taskInfo = ref<TaskInfo | null>(null)
 const taskProgress = ref<TaskProgress[]>([])
 onActivated(() => {
@@ -104,7 +100,7 @@ function fetchTaskProgress(): void {
   })
     .then((res) => {
       if (res.success) {
-        if (res.data == null) {
+        if (!res.data) {
           console.error('Task progress is null')
           return
         }
@@ -165,8 +161,90 @@ function downloadVideo(encode: boolean): void {
   window.open(url, '_blank')
 }
 
-function retryMerge(): void {
-  message.info('Retry Merge')
+function handleRetryMerge(): void {
+  dialog.warning({
+    title: 'Retry Merge Task?',
+    positiveText: 'MERGE',
+    negativeText: 'NO',
+    maskClosable: false,
+    onMaskClick: () => {
+      message.warning('Cannot close')
+    },
+    onPositiveClick: () => {
+      RetryMergeTask({
+        video_key: String(taskInfo.value?.key),
+      })
+        .then((res) => {
+          if (res.success) {
+            notification['success']({
+              content: 'Merging...',
+              meta: 'Task: ' + String(taskInfo.value?.key),
+              duration: 2500,
+              keepAliveOnHover: true,
+            })
+          } else {
+            notification['error']({
+              content: 'Start merge failed',
+              meta: res.error?.message || 'Unknown error',
+            })
+          }
+
+          fetchTaskProgress()
+        })
+        .catch((err) => {
+          console.error(err)
+          notification['error']({
+            content: 'Start merge failed',
+            meta: String(err) || 'Unknown error',
+          })
+        })
+    },
+  })
+}
+
+function handleRetryEncode(index: number): void {
+  dialog.warning({
+    title: 'Retry Encode Task?',
+    content: 'Are you sure to retry encoding this clip with the latest script and encode param?',
+    positiveText: 'ENCODE',
+    negativeText: 'NO',
+    maskClosable: false,
+    onMaskClick: () => {
+      message.warning('Cannot close')
+    },
+    onPositiveClick: () => {
+      RetryEncodeTask({
+        script: script.value,
+        encode_param: encodeParam.value,
+        video_key: String(taskInfo.value?.key),
+        index: index,
+      })
+        .then((res) => {
+          if (res.success) {
+            notification['success']({
+              content: 'Retry encoding...',
+              meta: 'Clip: ' + String(index),
+              duration: 2500,
+              keepAliveOnHover: true,
+            })
+          } else {
+            notification['error']({
+              content: 'Start re-encode failed',
+              meta: res.error?.message || 'Unknown error',
+            })
+          }
+
+          fetchTaskProgress()
+        })
+        .catch((err) => {
+          console.error(err)
+          notification['error']({
+            content: 'Start re-encode failed',
+            meta: String(err) || 'Unknown error',
+          })
+        })
+    },
+  })
 }
 </script>
 
@@ -179,7 +257,7 @@ function retryMerge(): void {
             <NProgress type="circle" :percentage="taskInfo?.percentage" />
           </div>
           <div v-else>
-            <NProgress type="circle" status="success" :percentage="taskInfo?.percentage" />
+            <NProgress type="circle" status="success" :percentage="100" />
           </div>
         </NSpace>
         <NSpace vertical class="p-5">
@@ -191,10 +269,10 @@ function retryMerge(): void {
       </NSpace>
     </NCard>
     <NCard title="Script">
-      <NCode :code="script" language="python" show-line-numbers />
+      <NCode :code="taskInfo?.script" language="python" show-line-numbers />
     </NCard>
     <NCard title="Encode Param">
-      <NCode :code="encodeParam" word-wrap />
+      <NCode :code="taskInfo?.encode_param" word-wrap />
     </NCard>
     <NCard>
       <NSpace vertical>
@@ -202,7 +280,7 @@ function retryMerge(): void {
           <NGradientText size="18" gradient="linear-gradient(90deg, red 0%, green 50%, blue 100%)">
             Clips
           </NGradientText>
-          <NButton type="warning" @click="retryMerge"> Retry Merge </NButton>
+          <NButton type="warning" @click="handleRetryMerge"> Retry Merge </NButton>
         </NSpace>
         <NDataTable
           :columns="columns"

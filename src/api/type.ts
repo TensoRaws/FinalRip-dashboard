@@ -93,6 +93,31 @@ export interface ClearTaskResponse {
   [property: string]: any
 }
 
+export interface RetryEncodeTaskRequest {
+  encode_param: string
+  index: number
+  script: string
+  video_key: string
+  [property: string]: any
+}
+
+export interface RetryEncodeTaskResponse {
+  error?: Error
+  success: boolean
+  [property: string]: any
+}
+
+export interface RetryMergeTaskRequest {
+  video_key: string
+  [property: string]: any
+}
+
+export interface RetryMergeTaskResponse {
+  error?: Error
+  success: boolean
+  [property: string]: any
+}
+
 export interface TaskListResquest {
   completed: boolean
   pending: boolean
