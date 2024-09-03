@@ -5,6 +5,7 @@ import { NButton, useDialog, useMessage, useNotification } from 'naive-ui'
 import { storeToRefs } from 'pinia'
 
 import { ClearTask, GetTaskList } from '@/api'
+import type { TaskStatus } from '@/api/type'
 import { useSettingStore } from '@/store/setting'
 import { renderIconButton, renderStatusButton } from '@/util/render'
 
@@ -21,7 +22,7 @@ interface Task {
   encode_url: string
   key: string
   script: string
-  status: string
+  status: TaskStatus
   url: string
 }
 

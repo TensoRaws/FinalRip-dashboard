@@ -3,6 +3,8 @@ export interface Error {
   [property: string]: any
 }
 
+export type TaskStatus = 'pending' | 'running' | 'completed'
+
 export interface PingResponse {
   error?: Error
   success: boolean
@@ -28,6 +30,37 @@ export interface StartTaskRequest {
 }
 
 export interface StartTaskResponse {
+  error?: Error
+  success: boolean
+  [property: string]: any
+}
+
+export interface GetTaskProgressRequest {
+  video_key: string
+  [property: string]: any
+}
+
+export interface GetTaskProgressResponse {
+  data?: {
+    create_at: string
+    encode_key: string
+    encode_param: string
+    encode_url: string
+    key: string
+    progress: {
+      clip_key: string
+      clip_url: string
+      completed: boolean
+      encode_key: string
+      encode_url: string
+      index: number
+      [property: string]: any
+    }[]
+    script: string
+    status: TaskStatus
+    url: string
+    [property: string]: any
+  }
   error?: Error
   success: boolean
   [property: string]: any
@@ -75,7 +108,7 @@ export interface TaskListResponse {
     encode_url: string
     key: string
     script: string
-    status: string
+    status: TaskStatus
     url: string
     [property: string]: any
   }[]

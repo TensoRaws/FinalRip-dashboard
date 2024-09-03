@@ -2,6 +2,7 @@ import { NButton, NIcon } from 'naive-ui'
 import type { Component, VNodeChild } from 'vue'
 import { h } from 'vue'
 
+import type { TaskStatus } from '@/api/type'
 import router from '@/router'
 
 export function renderIcon(icon: Component, props?: any): () => VNodeChild {
@@ -27,7 +28,7 @@ export function renderIconButton(icon: Component, url: string): VNodeChild {
   )
 }
 
-export function renderStatusButton(status: string, videoKey: string): VNodeChild {
+export function renderStatusButton(status: TaskStatus, videoKey: string): VNodeChild {
   let type: 'default' | 'error' | 'primary' | 'info' | 'success' | 'warning' | undefined
   if (status === 'pending') {
     type = 'warning'

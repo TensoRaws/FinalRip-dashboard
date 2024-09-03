@@ -5,6 +5,8 @@ import { storeToRefs } from 'pinia'
 import type {
   ClearTaskRequest,
   ClearTaskResponse,
+  GetTaskProgressRequest,
+  GetTaskProgressResponse,
   NewTaskRequest,
   NewTaskResponse,
   OSSPresignedURLRequest,
@@ -60,6 +62,19 @@ export async function StartTask(data: StartTaskRequest): Promise<StartTaskRespon
     return response.data
   } catch (error) {
     console.error('Error starting task:', error)
+    throw error
+  }
+}
+
+// GET /api/v1/task/progress
+export async function GetTaskProgress(
+  data: GetTaskProgressRequest,
+): Promise<GetTaskProgressResponse> {
+  try {
+    const response = await api().get('/api/v1/task/progress', { params: data })
+    return response.data
+  } catch (error) {
+    console.error('Error getting task progress:', error)
     throw error
   }
 }
