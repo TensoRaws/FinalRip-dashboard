@@ -50,7 +50,10 @@ const columns: DataTableColumns<Task> = [
   {
     title: 'Download',
     key: 'download',
-    render: (row: Task) => renderIconButton(CloudDownloadOutline, row.encode_url),
+    render: (row: Task) =>
+      row.encode_url
+        ? renderIconButton(CloudDownloadOutline, () => window.open(row.encode_url, '_blank'))
+        : null,
   },
 ]
 

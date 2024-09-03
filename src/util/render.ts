@@ -9,16 +9,12 @@ export function renderIcon(icon: Component, props?: any): () => VNodeChild {
   return () => h(NIcon, props, { default: () => h(icon) })
 }
 
-export function renderIconButton(icon: Component, url: string): VNodeChild {
-  if (url === '') {
-    return null
-  }
-
+export function renderIconButton(icon: Component, onClick: () => void): VNodeChild {
   return h(
     NButton,
     {
       text: true,
-      onClick: () => window.open(url, '_blank'),
+      onClick: onClick,
     },
     {
       default: renderIcon(icon, {

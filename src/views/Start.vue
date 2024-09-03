@@ -36,7 +36,8 @@ const columns: DataTableColumns<pendingTask> = [
   {
     title: 'Download',
     key: 'download',
-    render: (row: pendingTask) => renderIconButton(DownloadOutline, row.url),
+    render: (row: pendingTask) =>
+      row.url ? renderIconButton(DownloadOutline, () => window.open(row.url, '_blank')) : null,
   },
 ]
 
