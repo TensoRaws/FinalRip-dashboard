@@ -1,4 +1,4 @@
-name: CI-Test
+name: CI
 
 on:
   push:
@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  CI-Test:
+  CI:
     strategy:
       matrix:
         os-version: ['ubuntu-20.04']
@@ -33,7 +33,7 @@ jobs:
         with:
           version: 8
 
-      - name: Test
+      - name: CI
         run: |
           pnpm install
           pnpm run lint
