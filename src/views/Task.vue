@@ -134,7 +134,7 @@ function fetchTaskProgress(): void {
           script: res.data.script,
           status: res.data.status,
           url: res.data.url,
-          percentage: (done / total) * 100,
+          percentage: Number(((done / total) * 100).toFixed(2)),
         }
 
         taskProgress.value = tempProgress
