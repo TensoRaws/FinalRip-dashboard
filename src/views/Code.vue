@@ -33,7 +33,8 @@ function handleMount(editorInstance: any): any {
   editor.value = editorInstance
 }
 
-function handleUpdateTemplate(option: SelectOption): void {
+function handleUpdateTemplate(value: string, option: SelectOption): void {
+  console.log('fetching template content: ' + value)
   getGitHubTemplateContent(option)
     .then((res) => {
       script.value = res
