@@ -15,16 +15,16 @@ export default createRouter({
       component: Dashboard,
     },
     {
+      path: '/start',
+      component: Start,
+    },
+    {
       path: '/upload',
       component: Upload,
     },
     {
       path: '/code',
       component: Code,
-    },
-    {
-      path: '/start',
-      component: Start,
     },
     {
       path: '/setting',

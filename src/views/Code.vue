@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import { VueMonacoEditor } from '@guolao/vue-monaco-editor'
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
+import type { SelectOption } from 'naive-ui'
+import { useNotification } from 'naive-ui'
 import { storeToRefs } from 'pinia'
 import { shallowRef } from 'vue'
 
+import { getGitHubTemplateContent } from '@/api/github'
 import { useSettingStore } from '@/store/setting'
 
-const { darkMode, systemDarkMode, script, encodeParam } = storeToRefs(useSettingStore())
+const { darkMode, systemDarkMode, script, encodeParam, templates } = storeToRefs(useSettingStore())
+
+const notification = useNotification()
 
 const MONACO_EDITOR_OPTIONS: monacoEditor.editor.IStandaloneEditorConstructionOptions = {
   acceptSuggestionOnCommitCharacter: true,
@@ -27,11 +32,30 @@ const editor = shallowRef()
 function handleMount(editorInstance: any): any {
   editor.value = editorInstance
 }
+
+function handleUpdateTemplate(value: string, option: SelectOption): void {
+  console.log('fetching template content: ' + value)
+  getGitHubTemplateContent(option)
+    .then((res) => {
+      script.value = res
+    })
+    .catch((err) => {
+      console.error(err)
+      notification['error']({
+        title: 'Failed to get template content',
+        content: String(err),
+      })
+    })
+}
 </script>
 
 <template>
   <NSpace vertical>
-    <NCard hoverable title="Script" size="small" style="width: 100%; height: 68vh">
+    <NSpace justify="space-between">
+      <NGradientText size="18" type="primary"> Code </NGradientText>
+      <NSelect :options="templates" style="width: 50vh" @update:value="handleUpdateTemplate" />
+    </NSpace>
+    <NCard hoverable size="small" style="width: 100%; height: 65vh">
       <VueMonacoEditor
         v-model:value="script"
         language="python"

@@ -37,6 +37,20 @@ const menuOptions: MenuOption[] = [
         RouterLink,
         {
           to: {
+            path: '/start',
+          },
+        },
+        { default: () => 'Start' },
+      ),
+    key: 'Start',
+    icon: renderIcon(PlayCircleOutline),
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: {
             path: '/upload',
           },
         },
@@ -58,20 +72,6 @@ const menuOptions: MenuOption[] = [
       ),
     key: 'Code',
     icon: renderIcon(Code),
-  },
-  {
-    label: () =>
-      h(
-        RouterLink,
-        {
-          to: {
-            path: '/start',
-          },
-        },
-        { default: () => 'Start' },
-      ),
-    key: 'Start',
-    icon: renderIcon(PlayCircleOutline),
   },
 ]
 </script>
