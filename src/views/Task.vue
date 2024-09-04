@@ -31,9 +31,11 @@ interface TaskInfo {
   create_at: string
   encode_key: string
   encode_param: string
+  encode_size: string
   encode_url: string
   key: string
   script: string
+  size: string
   status: TaskStatus
   url: string
   percentage: number
@@ -129,9 +131,11 @@ function fetchTaskProgress(): void {
           create_at: res.data.create_at,
           encode_key: res.data.encode_key,
           encode_param: res.data.encode_param,
+          encode_size: res.data.encode_size,
           encode_url: res.data.encode_url,
           key: res.data.key,
           script: res.data.script,
+          size: res.data.size,
           status: res.data.status,
           url: res.data.url,
           percentage: Number(((done / total) * 100).toFixed(2)),
@@ -261,9 +265,13 @@ function handleRetryEncode(index: number): void {
           </div>
         </NSpace>
         <NSpace vertical class="p-5">
-          <NButton type="warning" @click="downloadVideo(false)"> Download Origin </NButton>
+          <NButton type="warning" @click="downloadVideo(false)">
+            Download Origin ({{ taskInfo?.size }})
+          </NButton>
           <div v-if="taskInfo?.status === 'completed'">
-            <NButton type="success" @click="downloadVideo(true)"> Download Encode </NButton>
+            <NButton type="success" @click="downloadVideo(true)">
+              Download Encode ({{ taskInfo?.encode_size }})
+            </NButton>
           </div>
         </NSpace>
       </NSpace>

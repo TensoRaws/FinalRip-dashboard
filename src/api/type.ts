@@ -45,6 +45,7 @@ export interface GetTaskProgressResponse {
     create_at: string
     encode_key: string
     encode_param: string
+    encode_size: string
     encode_url: string
     key: string
     progress: {
@@ -57,6 +58,7 @@ export interface GetTaskProgressResponse {
       [property: string]: any
     }[]
     script: string
+    size: string
     status: TaskStatus
     url: string
     [property: string]: any
