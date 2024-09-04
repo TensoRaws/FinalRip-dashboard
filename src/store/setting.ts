@@ -1,8 +1,7 @@
+import type { SelectOption } from 'naive-ui'
 import { defineStore } from 'pinia'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
-
-import type { EncodeTemplate } from '@/api/github'
 export type DarkModeType = 'system' | 'light' | 'dark'
 
 export const useSettingStore = defineStore(
@@ -20,7 +19,7 @@ export const useSettingStore = defineStore(
     const apiToken = ref('114514')
 
     // templates
-    const templates: Ref<EncodeTemplate[]> = ref([])
+    const templates: Ref<SelectOption[]> = ref([])
     const templateRepo = ref('TensoRaws/vs-playground')
     const githubToken = ref('')
 

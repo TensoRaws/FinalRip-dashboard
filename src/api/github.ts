@@ -1,13 +1,10 @@
-export interface EncodeTemplate {
-  name: string
-  url: string
-}
+import type { SelectOption } from 'naive-ui'
 
 export async function getGitHubTemplates(
   repo: string,
   token: string = '',
-): Promise<EncodeTemplate[]> {
-  const templateList: EncodeTemplate[] = []
+): Promise<SelectOption[]> {
+  const templateList: SelectOption[] = []
   const url = `https://api.github.com/repos/${repo}/contents/templates`
 
   const response = await fetch(url, {
@@ -19,15 +16,15 @@ export async function getGitHubTemplates(
 
   data.forEach((item: any) => {
     templateList.push({
-      name: item.name,
-      url: item.download_url,
+      label: item.name,
+      value: item.download_url,
     })
   })
 
   return templateList
 }
 
-export async function getGitHubTemplateContent(template: EncodeTemplate): Promise<string> {
-  const response = await fetch(template.url)
+export async function getGitHubTemplateContent(template: SelectOption): Promise<string> {
+  const response = await fetch(String(template?.value))
   return response.text()
 }
