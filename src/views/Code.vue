@@ -2,6 +2,7 @@
 import { VueMonacoEditor } from '@guolao/vue-monaco-editor'
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
 import type { SelectOption } from 'naive-ui'
+import { useNotification } from 'naive-ui'
 import { storeToRefs } from 'pinia'
 import { shallowRef } from 'vue'
 
@@ -9,6 +10,8 @@ import { getGitHubTemplateContent } from '@/api/github'
 import { useSettingStore } from '@/store/setting'
 
 const { darkMode, systemDarkMode, script, encodeParam, templates } = storeToRefs(useSettingStore())
+
+const notification = useNotification()
 
 const MONACO_EDITOR_OPTIONS: monacoEditor.editor.IStandaloneEditorConstructionOptions = {
   acceptSuggestionOnCommitCharacter: true,
@@ -30,14 +33,17 @@ function handleMount(editorInstance: any): any {
   editor.value = editorInstance
 }
 
-function handleUpdateTemplate(value: string, option: SelectOption): void {
+function handleUpdateTemplate(option: SelectOption): void {
   getGitHubTemplateContent(option)
     .then((res) => {
       script.value = res
-      console.log(res)
     })
     .catch((err) => {
       console.error(err)
+      notification['error']({
+        title: 'Failed to get template content',
+        content: String(err),
+      })
     })
 }
 </script>
