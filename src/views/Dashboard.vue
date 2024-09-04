@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import { useNotification } from 'naive-ui'
+import { storeToRefs } from 'pinia'
 
 import { Ping } from '@/api'
+import { getGitHubTemplates } from '@/api/github'
 import router from '@/router'
+import { useSettingStore } from '@/store/setting'
 import List from '@/views/List.vue'
+
+const { templateRepo, templates, githubToken } = storeToRefs(useSettingStore())
 
 const notification = useNotification()
 
@@ -26,6 +31,14 @@ onMounted(() => {
         content: 'Server is not available',
         meta: String(error) || 'Unknown error',
       })
+    })
+
+  getGitHubTemplates(templateRepo.value, githubToken.value)
+    .then((res) => {
+      templates.value = res
+    })
+    .catch((error) => {
+      console.log(error)
     })
 })
 </script>

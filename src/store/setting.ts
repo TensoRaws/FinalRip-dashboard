@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
+
+import type { EncodeTemplate } from '@/api/github'
 export type DarkModeType = 'system' | 'light' | 'dark'
 
 export const useSettingStore = defineStore(
@@ -9,11 +11,19 @@ export const useSettingStore = defineStore(
     // dark mode
     const darkMode: Ref<DarkModeType> = ref('system')
     const systemDarkMode = ref(false)
+
     // menu collapsed
     const collapsed = ref(false)
+
     // api
     const apiURL = ref('http://localhost:8848')
     const apiToken = ref('114514')
+
+    // templates
+    const templates: Ref<EncodeTemplate[]> = ref([])
+    const templateRepo = ref('TensoRaws/vs-playground')
+    const githubToken = ref('')
+
     // encode
     const script = ref(
       'import os\n' +
@@ -25,6 +35,7 @@ export const useSettingStore = defineStore(
         '\n',
     )
     const encodeParam = ref('ffmpeg -i - -vcodec libx265 -crf 16')
+
     // list setting
     const checkedPendingBox = ref(false)
     const checkedRunningBox = ref(true)
@@ -36,6 +47,9 @@ export const useSettingStore = defineStore(
       collapsed,
       apiURL,
       apiToken,
+      templates,
+      templateRepo,
+      githubToken,
       script,
       encodeParam,
       checkedPendingBox,
@@ -52,6 +66,9 @@ export const useSettingStore = defineStore(
         'collapsed',
         'apiURL',
         'apiToken',
+        'templates',
+        'templateRepo',
+        'githubToken',
         'script',
         'encodeParam',
         'checkedPendingBox',
