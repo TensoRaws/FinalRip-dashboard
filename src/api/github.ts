@@ -9,7 +9,7 @@ export async function getGitHubTemplates(
 
   const response = await fetch(url, {
     headers: {
-      Authorization: `token ${token}`,
+      Authorization: token ? `token ${token}` : '',
     },
   })
   const data = await response.json()
