@@ -2,32 +2,51 @@
 import { storeToRefs } from 'pinia'
 
 import { useSettingStore } from '@/store/setting'
+
 const { apiURL, apiToken, templateRepo, githubToken } = storeToRefs(useSettingStore())
 </script>
 
 <template>
   <NSpace vertical>
-    <NCard title="Server API" size="small">
+    <NCard hoverable title="Server API" size="small">
       <NSpace vertical>
-        <NInput v-model:value="apiURL" placeholder="API URL: http://localhost:8848" />
+        <NSpace>
+          <div class="w-[50px]"> URL: </div>
+          <NInput v-model:value="apiURL" style="width: 40vh" placeholder="http://localhost:8848" />
+        </NSpace>
+        <NSpace>
+          <div class="w-[50px]"> Token: </div>
+          <NInput
+            v-model:value="apiToken"
+            style="width: 40vh"
+            type="password"
+            show-password-on="click"
+            placeholder="xxxxxx"
+          />
+        </NSpace>
+      </NSpace>
+    </NCard>
+    <NCard hoverable title="Github API" size="small">
+      <NSpace>
+        <div class="w-[50px]"> Token: </div>
         <NInput
-          v-model:value="apiToken"
+          v-model:value="githubToken"
+          style="width: 40vh"
           type="password"
           show-password-on="click"
-          placeholder="API Token: xxxxxx"
+          placeholder="ghp_ddddddddd1111111114514"
         />
       </NSpace>
     </NCard>
-    <NCard title="Github Token" size="small">
-      <NInput
-        v-model:value="githubToken"
-        type="password"
-        show-password-on="click"
-        placeholder="ghp_dddddddddweebgyserhgahhrr"
-      />
-    </NCard>
-    <NCard title="Template Repo" size="small">
-      <NInput v-model:value="templateRepo" placeholder="TensoRaws/vs-playground" />
+    <NCard hoverable title="Template Repo" size="small">
+      <NSpace>
+        <div class="w-[50px]"> Name: </div>
+        <NInput
+          v-model:value="templateRepo"
+          style="width: 40vh"
+          placeholder="TensoRaws/vs-playground"
+        />
+      </NSpace>
     </NCard>
   </NSpace>
 </template>
