@@ -8,8 +8,7 @@ import { ClearTask, GetTaskList, StartTask } from '@/api'
 import { useSettingStore } from '@/store/setting'
 import { renderIconButton } from '@/util/render'
 
-const { script, encodeParam, videoCutCustom, videoEncodeCustom, videoMergeCustom } =
-  storeToRefs(useSettingStore())
+const { script, encodeParam } = storeToRefs(useSettingStore())
 
 const notification = useNotification()
 const dialog = useDialog()
@@ -107,9 +106,6 @@ function submitTasks(): void {
           encode_param: encodeParam.value,
           script: script.value,
           video_key: key.toString(),
-          video_cut_custom: videoCutCustom.value,
-          video_encode_custom: videoEncodeCustom.value,
-          video_merge_custom: videoMergeCustom.value,
         })
           .then((res) => {
             if (res.success) {

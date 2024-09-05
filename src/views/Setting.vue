@@ -3,15 +3,7 @@ import { storeToRefs } from 'pinia'
 
 import { useSettingStore } from '@/store/setting'
 
-const {
-  apiURL,
-  apiToken,
-  templateRepo,
-  githubToken,
-  videoCutCustom,
-  videoEncodeCustom,
-  videoMergeCustom,
-} = storeToRefs(useSettingStore())
+const { apiURL, apiToken, templateRepo, githubToken } = storeToRefs(useSettingStore())
 </script>
 
 <template>
@@ -42,7 +34,7 @@ const {
           style="width: 40vh"
           type="password"
           show-password-on="click"
-          placeholder="ghp_dddddddddweebgyserhgahhrr"
+          placeholder="ghp_ddddddddd1111111114514"
         />
       </NSpace>
     </NCard>
@@ -54,22 +46,6 @@ const {
           style="width: 40vh"
           placeholder="TensoRaws/vs-playground"
         />
-      </NSpace>
-    </NCard>
-    <NCard hoverable title="Custom Worker" size="small">
-      <NSpace vertical>
-        <NSpace>
-          <div class="w-[50px]"> Cut: </div>
-          <NInput v-model:value="videoCutCustom" style="width: 40vh" placeholder="default" />
-        </NSpace>
-        <NSpace>
-          <div class="w-[50px]"> Encode: </div>
-          <NInput v-model:value="videoEncodeCustom" style="width: 40vh" placeholder="default" />
-        </NSpace>
-        <NSpace>
-          <div class="w-[50px]"> Merge: </div>
-          <NInput v-model:value="videoMergeCustom" style="width: 40vh" placeholder="default" />
-        </NSpace>
       </NSpace>
     </NCard>
   </NSpace>
