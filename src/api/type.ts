@@ -26,6 +26,9 @@ export interface StartTaskRequest {
   encode_param: string
   script: string
   video_key: string
+  video_cut_custom?: string
+  video_encode_custom?: string
+  video_merge_custom?: string
   [property: string]: any
 }
 
@@ -100,6 +103,7 @@ export interface RetryEncodeTaskRequest {
   index: number
   script: string
   video_key: string
+  video_encode_custom?: string
   [property: string]: any
 }
 
@@ -111,6 +115,7 @@ export interface RetryEncodeTaskResponse {
 
 export interface RetryMergeTaskRequest {
   video_key: string
+  video_merge_custom?: string
   [property: string]: any
 }
 
