@@ -23,6 +23,11 @@ export const useSettingStore = defineStore(
     const templateRepo = ref('TensoRaws/vs-playground')
     const githubToken = ref('')
 
+    // custom worker
+    const videoCutCustom = ref('')
+    const videoEncodeCustom = ref('')
+    const videoMergeCustom = ref('')
+
     // encode
     const script = ref(
       'import os\n' +
@@ -49,6 +54,9 @@ export const useSettingStore = defineStore(
       templates,
       templateRepo,
       githubToken,
+      videoCutCustom,
+      videoEncodeCustom,
+      videoMergeCustom,
       script,
       encodeParam,
       checkedPendingBox,
@@ -68,6 +76,9 @@ export const useSettingStore = defineStore(
         'templates',
         'templateRepo',
         'githubToken',
+        'videoCutCustom',
+        'videoEncodeCustom',
+        'videoMergeCustom',
         'script',
         'encodeParam',
         'checkedPendingBox',

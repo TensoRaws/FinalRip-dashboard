@@ -14,7 +14,7 @@ import type { TaskStatus } from '@/api/type'
 import { useSettingStore } from '@/store/setting'
 import { renderIcon, renderIconButton } from '@/util/render'
 
-const { encodeParam, script } = storeToRefs(useSettingStore())
+const { encodeParam, script, videoEncodeCustom, videoMergeCustom } = storeToRefs(useSettingStore())
 
 const notification = useNotification()
 const dialog = useDialog()
@@ -177,6 +177,7 @@ function handleRetryMerge(): void {
     onPositiveClick: () => {
       RetryMergeTask({
         video_key: String(taskInfo.value?.key),
+        video_merge_custom: videoMergeCustom.value,
       })
         .then((res) => {
           if (res.success) {
@@ -222,6 +223,7 @@ function handleRetryEncode(index: number): void {
         encode_param: encodeParam.value,
         video_key: String(taskInfo.value?.key),
         index: index,
+        video_encode_custom: videoEncodeCustom.value,
       })
         .then((res) => {
           if (res.success) {
