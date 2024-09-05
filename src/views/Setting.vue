@@ -2,75 +2,32 @@
 import { storeToRefs } from 'pinia'
 
 import { useSettingStore } from '@/store/setting'
-
-const {
-  apiURL,
-  apiToken,
-  templateRepo,
-  githubToken,
-  videoCutCustom,
-  videoEncodeCustom,
-  videoMergeCustom,
-} = storeToRefs(useSettingStore())
+const { apiURL, apiToken, templateRepo, githubToken } = storeToRefs(useSettingStore())
 </script>
 
 <template>
   <NSpace vertical>
-    <NCard hoverable title="Server API" size="small">
+    <NCard title="Server API" size="small">
       <NSpace vertical>
-        <NSpace>
-          <div class="w-[50px]"> URL: </div>
-          <NInput v-model:value="apiURL" style="width: 40vh" placeholder="http://localhost:8848" />
-        </NSpace>
-        <NSpace>
-          <div class="w-[50px]"> Token: </div>
-          <NInput
-            v-model:value="apiToken"
-            style="width: 40vh"
-            type="password"
-            show-password-on="click"
-            placeholder="xxxxxx"
-          />
-        </NSpace>
-      </NSpace>
-    </NCard>
-    <NCard hoverable title="Github API" size="small">
-      <NSpace>
-        <div class="w-[50px]"> Token: </div>
+        <NInput v-model:value="apiURL" placeholder="API URL: http://localhost:8848" />
         <NInput
-          v-model:value="githubToken"
-          style="width: 40vh"
+          v-model:value="apiToken"
           type="password"
           show-password-on="click"
-          placeholder="ghp_dddddddddweebgyserhgahhrr"
+          placeholder="API Token: xxxxxx"
         />
       </NSpace>
     </NCard>
-    <NCard hoverable title="Template Repo" size="small">
-      <NSpace>
-        <div class="w-[50px]"> Name: </div>
-        <NInput
-          v-model:value="templateRepo"
-          style="width: 40vh"
-          placeholder="TensoRaws/vs-playground"
-        />
-      </NSpace>
+    <NCard title="Github Token" size="small">
+      <NInput
+        v-model:value="githubToken"
+        type="password"
+        show-password-on="click"
+        placeholder="ghp_dddddddddweebgyserhgahhrr"
+      />
     </NCard>
-    <NCard hoverable title="Custom Worker" size="small">
-      <NSpace vertical>
-        <NSpace>
-          <div class="w-[50px]"> Cut: </div>
-          <NInput v-model:value="videoCutCustom" style="width: 40vh" placeholder="default" />
-        </NSpace>
-        <NSpace>
-          <div class="w-[50px]"> Encode: </div>
-          <NInput v-model:value="videoEncodeCustom" style="width: 40vh" placeholder="default" />
-        </NSpace>
-        <NSpace>
-          <div class="w-[50px]"> Merge: </div>
-          <NInput v-model:value="videoMergeCustom" style="width: 40vh" placeholder="default" />
-        </NSpace>
-      </NSpace>
+    <NCard title="Template Repo" size="small">
+      <NInput v-model:value="templateRepo" placeholder="TensoRaws/vs-playground" />
     </NCard>
   </NSpace>
 </template>
