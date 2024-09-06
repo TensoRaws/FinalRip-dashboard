@@ -193,8 +193,6 @@ function handleRetryMerge(): void {
               meta: res.error?.message || 'Unknown error',
             })
           }
-
-          fetchTaskProgress()
         })
         .catch((err) => {
           console.error(err)
@@ -202,6 +200,9 @@ function handleRetryMerge(): void {
             content: 'Start merge failed',
             meta: String(err) || 'Unknown error',
           })
+        })
+        .finally(() => {
+          fetchTaskProgress()
         })
     },
   })
@@ -238,8 +239,6 @@ function handleRetryEncode(index: number): void {
               meta: res.error?.message || 'Unknown error',
             })
           }
-
-          fetchTaskProgress()
         })
         .catch((err) => {
           console.error(err)
@@ -247,6 +246,9 @@ function handleRetryEncode(index: number): void {
             content: 'Start re-encode failed',
             meta: String(err) || 'Unknown error',
           })
+        })
+        .finally(() => {
+          fetchTaskProgress()
         })
     },
   })
