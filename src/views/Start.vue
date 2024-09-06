@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { DownloadOutline } from '@vicons/ionicons5'
+import dayjs from 'dayjs'
 import type { DataTableColumns, DataTableRowKey } from 'naive-ui'
 import { NButton, useDialog, useMessage, useNotification } from 'naive-ui'
 import { storeToRefs } from 'pinia'
@@ -58,7 +59,7 @@ function fetchPendingTasks(): void {
         res.data?.forEach((task) => {
           temp.push({
             key: task.key,
-            create_at: task.create_at,
+            create_at: dayjs.unix(task.create_at).format('YYYY-MM-DD HH:mm:ss'),
             url: task.url,
           })
         })
@@ -91,8 +92,9 @@ function submitTasks(): void {
     return
   }
 
-  dialog.success({
-    title: 'Start Selected Task?',
+  dialog.info({
+    title: 'Run Selected Task?',
+    content: 'Are you sure to run the selected task with the latest script and encode param?',
     positiveText: 'RUN',
     negativeText: 'NO',
     maskClosable: false,
@@ -192,7 +194,7 @@ function deleteTasks(): void {
         <NGradientText size="18" type="warning"> Pending </NGradientText>
         <NSpace>
           <NButton type="error" @click="deleteTasks"> Delete </NButton>
-          <NButton type="primary" @click="submitTasks"> Submit </NButton>
+          <NButton type="primary" @click="submitTasks"> RUN </NButton>
         </NSpace>
       </NSpace>
       <NDataTable

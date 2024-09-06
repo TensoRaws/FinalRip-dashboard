@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { CloudDownloadOutline, SearchOutline } from '@vicons/ionicons5'
+import dayjs from 'dayjs'
 import type { DataTableColumns, DataTableRowKey } from 'naive-ui'
 import { NButton, useDialog, useMessage, useNotification } from 'naive-ui'
 import { storeToRefs } from 'pinia'
@@ -73,7 +74,7 @@ function fetchTasks(): void {
         const temp: Task[] = []
         res.data?.forEach((task) => {
           temp.push({
-            create_at: task.create_at,
+            create_at: dayjs.unix(task.create_at).format('YYYY-MM-DD HH:mm:ss'),
             encode_key: task.encode_key,
             encode_param: task.encode_param,
             encode_url: task.encode_url,

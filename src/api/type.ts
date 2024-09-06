@@ -42,7 +42,7 @@ export interface GetTaskProgressRequest {
 
 export interface GetTaskProgressResponse {
   data?: {
-    create_at: string
+    create_at: number
     encode_key: string
     encode_param: string
     encode_size: string
@@ -129,7 +129,7 @@ export interface TaskListResquest {
 
 export interface TaskListResponse {
   data?: {
-    create_at: string
+    create_at: number
     encode_key: string
     encode_param: string
     encode_url: string

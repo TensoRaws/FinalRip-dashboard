@@ -17,6 +17,9 @@ dependencies:
   axios:
     specifier: ^1.7.7
     version: 1.7.7
+  dayjs:
+    specifier: ^1.11.13
+    version: 1.11.13
   highlight.js:
     specifier: ^11.10.0
     version: 11.10.0
@@ -1721,6 +1724,10 @@ packages:
     engines: {node: '>=0.11'}
     dependencies:
       '@babel/runtime': 7.25.6
+    dev: false
+
+  /dayjs@1.11.13:
+    resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
     dev: false
 
   /de-indent@1.0.2:
