@@ -49,7 +49,7 @@ const columns: DataTableColumns<Task> = [
     key: 'create_at',
   },
   {
-    title: 'Download',
+    title: 'Download Encode',
     key: 'download',
     render: (row: Task) =>
       row.encode_url
@@ -107,8 +107,8 @@ function updateCheckedRowKeys(keys: DataTableRowKey[]): void {
   checkedRowKeys.value = keys
 }
 
-function deleteTasks(): void {
-  if (checkedRowKeys.value.length === 0) {
+function deleteTasks(taskKeys: DataTableRowKey[]): void {
+  if (taskKeys.length === 0) {
     message.warning('Please select at least one task')
     return
   }
@@ -122,7 +122,7 @@ function deleteTasks(): void {
       message.warning('Cannot close')
     },
     onPositiveClick: () => {
-      checkedRowKeys.value.forEach((key) => {
+      taskKeys.forEach((key) => {
         ClearTask({
           video_key: key.toString(),
         })
@@ -141,7 +141,7 @@ function deleteTasks(): void {
               })
             }
 
-            fetchTasks()
+            updateCheckedRowKeys(checkedRowKeys.value.filter((k) => k !== key))
           })
           .catch((err) => {
             console.error(err)
@@ -150,19 +150,22 @@ function deleteTasks(): void {
               meta: String(err) || 'Unknown error',
             })
           })
+          .finally(() => {
+            fetchTasks()
+          })
       })
     },
   })
 }
 
-function downloadTasks(): void {
-  if (checkedRowKeys.value.length === 0) {
+function downloadTasks(taskKeys: DataTableRowKey[]): void {
+  if (taskKeys.length === 0) {
     message.warning('Please select at least one task')
     return
   }
 
   let downloadList: string[] = []
-  checkedRowKeys.value.forEach((key) => {
+  taskKeys.forEach((key) => {
     const task = tasks.value.find((t) => t.key === key)
     if (task?.encode_url) {
       downloadList.push(task.encode_url)
@@ -210,8 +213,8 @@ watch(filter, () => {
           </NInput>
         </NSpace>
         <NSpace>
-          <NButton type="error" @click="deleteTasks"> Delete </NButton>
-          <NButton type="info" @click="downloadTasks"> Download </NButton>
+          <NButton type="error" @click="deleteTasks(checkedRowKeys)"> Delete </NButton>
+          <NButton type="info" @click="downloadTasks(checkedRowKeys)"> Download </NButton>
         </NSpace>
       </NSpace>
       <NDataTable
@@ -222,6 +225,7 @@ watch(filter, () => {
         max-height="70vh"
         virtual-scroll
         striped
+        :checked-row-keys="checkedRowKeys"
         @update:checked-row-keys="updateCheckedRowKeys"
       />
     </NSpace>
