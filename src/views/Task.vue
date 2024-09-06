@@ -5,6 +5,7 @@ import {
   DownloadOutline,
   ReloadOutline,
 } from '@vicons/ionicons5'
+import dayjs from 'dayjs'
 import type { DataTableColumns } from 'naive-ui'
 import { NButton, useDialog, useMessage, useNotification } from 'naive-ui'
 import { storeToRefs } from 'pinia'
@@ -128,7 +129,7 @@ function fetchTaskProgress(): void {
         })
 
         const tempInfo: TaskInfo = {
-          create_at: res.data.create_at,
+          create_at: dayjs.unix(res.data.create_at).format('YYYY-MM-DD HH:mm:ss'),
           encode_key: res.data.encode_key,
           encode_param: res.data.encode_param,
           encode_size: res.data.encode_size,
@@ -192,8 +193,6 @@ function handleRetryMerge(): void {
               meta: res.error?.message || 'Unknown error',
             })
           }
-
-          fetchTaskProgress()
         })
         .catch((err) => {
           console.error(err)
@@ -201,6 +200,9 @@ function handleRetryMerge(): void {
             content: 'Start merge failed',
             meta: String(err) || 'Unknown error',
           })
+        })
+        .finally(() => {
+          fetchTaskProgress()
         })
     },
   })
@@ -237,8 +239,6 @@ function handleRetryEncode(index: number): void {
               meta: res.error?.message || 'Unknown error',
             })
           }
-
-          fetchTaskProgress()
         })
         .catch((err) => {
           console.error(err)
@@ -246,6 +246,9 @@ function handleRetryEncode(index: number): void {
             content: 'Start re-encode failed',
             meta: String(err) || 'Unknown error',
           })
+        })
+        .finally(() => {
+          fetchTaskProgress()
         })
     },
   })

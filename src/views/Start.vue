@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { DownloadOutline } from '@vicons/ionicons5'
+import { DownloadOutline, PlayCircleOutline } from '@vicons/ionicons5'
+import dayjs from 'dayjs'
 import type { DataTableColumns, DataTableRowKey } from 'naive-ui'
 import { NButton, useDialog, useMessage, useNotification } from 'naive-ui'
 import { storeToRefs } from 'pinia'
@@ -30,11 +31,16 @@ const columns: DataTableColumns<pendingTask> = [
     key: 'key',
   },
   {
+    title: 'Run',
+    key: 'run',
+    render: (row: pendingTask) => renderIconButton(PlayCircleOutline, () => submitTasks([row.key])),
+  },
+  {
     title: 'Date',
     key: 'create_at',
   },
   {
-    title: 'Download',
+    title: 'Download Origin',
     key: 'download',
     render: (row: pendingTask) =>
       row.url ? renderIconButton(DownloadOutline, () => window.open(row.url, '_blank')) : null,
@@ -58,7 +64,7 @@ function fetchPendingTasks(): void {
         res.data?.forEach((task) => {
           temp.push({
             key: task.key,
-            create_at: task.create_at,
+            create_at: dayjs.unix(task.create_at).format('YYYY-MM-DD HH:mm:ss'),
             url: task.url,
           })
         })
@@ -85,14 +91,15 @@ function updateCheckedRowKeys(keys: DataTableRowKey[]): void {
   checkedRowKeys.value = keys
 }
 
-function submitTasks(): void {
-  if (checkedRowKeys.value.length === 0) {
+function submitTasks(taskKeys: DataTableRowKey[]): void {
+  if (taskKeys.length === 0) {
     message.warning('Please select at least one task')
     return
   }
 
-  dialog.success({
-    title: 'Start Selected Task?',
+  dialog.info({
+    title: taskKeys.length > 1 ? 'Run Selected Tasks?' : 'Run Task?',
+    content: 'Are you sure to start with the latest script and encode param?',
     positiveText: 'RUN',
     negativeText: 'NO',
     maskClosable: false,
@@ -100,7 +107,7 @@ function submitTasks(): void {
       message.warning('Cannot close')
     },
     onPositiveClick: () => {
-      checkedRowKeys.value.forEach((key) => {
+      taskKeys.forEach((key) => {
         console.log(key.toString())
         StartTask({
           encode_param: encodeParam.value,
@@ -122,7 +129,7 @@ function submitTasks(): void {
               })
             }
 
-            fetchPendingTasks()
+            updateCheckedRowKeys(checkedRowKeys.value.filter((k) => k !== key))
           })
           .catch((err) => {
             console.error(err)
@@ -131,19 +138,22 @@ function submitTasks(): void {
               meta: String(err) || 'Unknown error',
             })
           })
+          .finally(() => {
+            fetchPendingTasks()
+          })
       })
     },
   })
 }
 
-function deleteTasks(): void {
-  if (checkedRowKeys.value.length === 0) {
+function deleteTasks(taskKeys: DataTableRowKey[]): void {
+  if (taskKeys.length === 0) {
     message.warning('Please select at least one task')
     return
   }
 
   dialog.warning({
-    title: 'Delete Selected Task?',
+    title: taskKeys.length > 1 ? 'Delete Selected Tasks?' : 'Delete Task?',
     positiveText: 'DELETE',
     negativeText: 'NO',
     maskClosable: false,
@@ -151,7 +161,7 @@ function deleteTasks(): void {
       message.warning('Cannot close')
     },
     onPositiveClick: () => {
-      checkedRowKeys.value.forEach((key) => {
+      taskKeys.forEach((key) => {
         ClearTask({
           video_key: key.toString(),
         })
@@ -170,7 +180,7 @@ function deleteTasks(): void {
               })
             }
 
-            fetchPendingTasks()
+            updateCheckedRowKeys(checkedRowKeys.value.filter((k) => k !== key))
           })
           .catch((err) => {
             console.error(err)
@@ -178,6 +188,9 @@ function deleteTasks(): void {
               content: 'Delete task failed',
               meta: String(err) || 'Unknown error',
             })
+          })
+          .finally(() => {
+            fetchPendingTasks()
           })
       })
     },
@@ -191,8 +204,8 @@ function deleteTasks(): void {
       <NSpace justify="space-between">
         <NGradientText size="18" type="warning"> Pending </NGradientText>
         <NSpace>
-          <NButton type="error" @click="deleteTasks"> Delete </NButton>
-          <NButton type="primary" @click="submitTasks"> Submit </NButton>
+          <NButton type="error" @click="deleteTasks(checkedRowKeys)"> Delete </NButton>
+          <NButton type="primary" @click="submitTasks(checkedRowKeys)"> RUN </NButton>
         </NSpace>
       </NSpace>
       <NDataTable
@@ -202,6 +215,7 @@ function deleteTasks(): void {
         max-height="70vh"
         virtual-scroll
         striped
+        :checked-row-keys="checkedRowKeys"
         @update:checked-row-keys="updateCheckedRowKeys"
       />
     </NSpace>
