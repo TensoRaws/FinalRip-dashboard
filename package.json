@@ -23,7 +23,7 @@
     "highlight.js": "^11.10.0",
     "monaco-editor": "^0.51.0",
     "naive-ui": "^2.39.0",
-    "pinia": "^2.2.2",
+    "pinia": "^2.2.4",
     "pinia-plugin-persistedstate": "^3.2.3",
     "vue": "^3.5.3",
     "vue-router": "^4.4.3"
